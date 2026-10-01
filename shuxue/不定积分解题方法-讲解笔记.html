@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>不定积分的解题方法 · 讲解笔记</title>
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#f2f4f6;color:#1b1f24;
+  font:15px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:26px 18px 64px}
+header{background:#fff;border:.5px solid #d6dbe1;border-radius:8px;padding:24px 28px;margin-bottom:14px}
+h1{font-size:24px;margin:0 0 8px;letter-spacing:.4px}
+.sub{margin:0;color:#6a7480;font-size:13.5px}
+.lead{margin:12px 0 0;color:#3d4650;font-size:14.5px}
+section{background:#fff;border:.5px solid #d6dbe1;border-radius:8px;padding:20px 28px 24px;margin-bottom:14px}
+h2{font-size:18px;margin:0 0 10px;padding-bottom:9px;border-bottom:1px solid #e6eaee;color:#16202b}
+h2 .n{display:inline-block;min-width:28px;color:#94a1b0;font-weight:400;font-size:15px}
+h3{font-size:15.5px;margin:20px 0 6px;color:#22303e}
+h4{font-size:14px;margin:14px 0 4px;color:#4a5665}
+p{margin:8px 0}
+ul,ol{margin:8px 0;padding-left:22px}
+li{margin:4px 0}
+.m{font-family:Cambria,"Cambria Math","Times New Roman",serif;font-style:italic}
+.disp{margin:10px 0;padding:9px 13px;background:#f7f9fb;border:.5px solid #e4e9ee;border-radius:5px;
+  font-family:Cambria,"Cambria Math","Times New Roman",serif;font-size:15.5px;overflow-x:auto;white-space:nowrap}
+.key{background:#fffbe6;border:.5px solid #e6d594;border-left:3px solid #c8a318;border-radius:5px;padding:12px 16px;margin:13px 0}
+.key .t{display:block;font-weight:700;color:#8a6d0e;font-size:13px;letter-spacing:.6px;margin-bottom:5px}
+.key p{margin:5px 0}
+.quote{border-left:3px solid #9aabbe;background:#f6f9fc;padding:9px 15px;margin:11px 0;color:#39465a;font-size:14px}
+.quote .src{display:block;margin-top:5px;color:#7b8798;font-size:12.5px;font-style:normal}
+.tip{background:#f1f8f3;border:.5px solid #c6e0d0;border-left:3px solid #4e9c6e;padding:10px 15px;border-radius:5px;font-size:14px;margin:11px 0}
+.warn{background:#fdf5f2;border:.5px solid #eccdc3;border-left:3px solid #c96547;padding:10px 15px;border-radius:5px;font-size:14px;margin:11px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+th,td{border:.5px solid #dde2e8;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;font-weight:600;color:#243040}
+code{font-family:Consolas,"Courier New",monospace;background:#f1f5f9;padding:1px 5px;border-radius:3px;font-size:13.5px}
+.toc{columns:2;column-gap:26px;font-size:14px;margin:6px 0 0;padding-left:20px}
+.toc li{break-inside:avoid}
+.quiz{margin:6px 0 0;padding-left:0;list-style:none}
+.q{border:.5px solid #e2e7ec;border-radius:6px;padding:13px 16px;margin:12px 0;background:#fcfdfe;page-break-inside:avoid}
+.qt{margin:0 0 9px;font-size:14.5px}
+.opts{display:grid;gap:6px}
+.opt{display:block;width:100%;text-align:left;font:inherit;font-size:14px;line-height:1.6;
+  background:#fff;border:.5px solid #d8dee5;border-radius:5px;padding:8px 12px;cursor:pointer;color:#1b1f24}
+.opt:hover{border-color:#a9b8c8;background:#f7fafc}
+.opt.ok{border-color:#4e9c6e;background:#eef8f2;color:#1d5c39}
+.opt.no{border-color:#c96547;background:#fdf1ee;color:#8e3a22}
+.opt[disabled]{cursor:default}
+.exp{margin:10px 0 0;padding:9px 13px;background:#f6f8fa;border-left:3px solid #9aabbe;border-radius:4px;
+  font-size:13.5px;color:#39465a;display:none}
+.exp.show{display:block}
+.qbar{margin:16px 0 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-size:13.5px;padding:7px 14px;border:.5px solid #d8dee5;border-radius:5px;
+  background:#fff;cursor:pointer;color:#243040}
+.btn:hover{background:#f2f6fa}
+.stat{font-size:13.5px;color:#6a7480}
+@media print{
+  body{background:#fff;font-size:11.5pt}
+  .wrap{max-width:none;padding:0}
+  header,section{border:.5pt solid #bbb;border-radius:0;margin-bottom:10pt;padding:10pt 14pt;page-break-inside:avoid}
+  .key,.quote,.tip,.warn,.disp{page-break-inside:avoid}
+  h2{page-break-after:avoid}
+  table{page-break-inside:avoid}
+  .exp{display:block}
+  .qbar{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>不定积分的解题方法</h1>
+  <p class="sub">高数上册进阶 · 讲义讲解笔记</p>
+  <p class="lead">这份笔记不重抄讲义，只做一件事：把讲义里散落的二十多种技巧，归并到几条判据下面，说清每条技巧由哪条判据推出、在什么条件下失效。</p>
+</header>
+
+<section>
+  <h2><span class="n">0</span>导言：这套方法在解决什么问题</h2>
+
+  <p>不定积分这一章的难点从来不是"会不会积分"，而是<strong>面对一个陌生的被积函数，能不能在三秒内判断该走哪条路</strong>。基本积分表、基本换元、分部积分公式是工具；讲义真正在教的，是一张"路标图"——什么长相的式子对应什么动作。</p>
+
+  <h3>三条前提（讲义默认你已经具备）</h3>
+  <ol>
+    <li>基本积分表、凑微分、第一/第二类换元、分部积分公式已熟练，不需要现查。</li>
+    <li>有理函数理论上一定能积（待定系数法），但"一定能积"不等于"该这么积"。例题 2 用待定系数法要解四元方程组，例题 3 只需三次减法。</li>
+    <li>三角有理函数理论上一定能积（万能代换 <span class="m">t</span> = tan(<span class="m">x</span>/2)），同样不等于最快。例题 27 用万能代换要算到四次有理式，造出 d(tan <span class="m">x</span>) 只需两行。</li>
+  </ol>
+
+  <h3>适用的边界</h3>
+  <ul>
+    <li>全部手法服务于三个目标：<strong>去根号、降分母次数、把分子凑成某个可识别对象的导数</strong>。看不出结构信号的题（个别根式题），只能靠"试换元"，这是正常的。</li>
+    <li>判据通用，但每个具体换元选谁由题目结构给信号。没有信号时，优先试"令整个根号等于 <span class="m">t</span>"和"倒代换"两条通用策略。</li>
+    <li>三角有理函数的六条特殊解法，数三原则上不要求；但其中"对称性三判据"本身是极高效的思维工具，仍值得掌握。</li>
+    <li>讲义中"考法四"编号缺失（原文从考法三直接跳到考法五），本笔记沿用原文编号，不做补正。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">一</span>判据层：五条不可动摇的心法</h2>
+
+  <p>讲义里 34 道例题、上百个技巧，都可以由下面五条判据生成。先记判据，再记技巧；判据想清楚了，技巧是自然产物。</p>
+
+  <div class="key">
+    <span class="t">判据 1　先看结构，再动手</span>
+    <p>被积函数的长相决定手法，不是反过来。看到根号 → 想"怎么去根号"；看到高次分母 → 想"怎么降阶"；看到分母是平方 → 想"分部降阶"；看到 <span class="m">e<sup>x</sup></span> 乘有理式 → 想"抵消"。<strong>动手之前先给式子贴一个标签。</strong></p>
+  </div>
+
+  <div class="key">
+    <span class="t">判据 2　全部动作只有三个目的</span>
+    <p>去根号 · 降分母次数 · 把分子凑成某个可识别对象的导数。</p>
+    <p>任何一步变形若不属于这三类，就要怀疑这一步是不是白做——它既没让式子更简单，也没让结构更明显。</p>
+  </div>
+
+  <div class="key">
+    <span class="t">判据 3　分部积分只有两种用法</span>
+    <p><strong>用法 A（降阶）</strong>：把分母凑到 d 后面，一次分部让分母次数降下来。识别信号：分母是高次幂，如 <span class="m">1/(1+x)<sup>2</sup></span>、<span class="m">1/(a<sup>2</sup>+x<sup>2</sup>)<sup>2</sup></span>。</p>
+    <p><strong>用法 B（抵消）</strong>：把一个积分拆成 <span class="m">I<sub>1</sub></span> + <span class="m">I<sub>2</sub></span>，只对 <span class="m">I<sub>2</sub></span> 分部，分部后产生的新积分恰好是 −<span class="m">I<sub>1</sub></span>，两者相消。识别信号：被积函数里有 <span class="m">e<sup>x</sup></span>（或 <span class="m">e<sup>f(x)</sup></span>）与有理式相乘，或整体是两个函数的乘积结构。</p>
+    <p>判据 3 是这份讲义里回报最高的一条：例题 15、16、17、18，四条支线全由它生出。</p>
+  </div>
+
+  <div class="key">
+    <span class="t">判据 4　求导试探法</span>
+    <p>把被积函数里<strong>最复杂的那个因子求一次导</strong>，看结果是否出现在分子上。若出现，整个积分立刻变成一个 <span class="m">∫g′/g</span> 或 <span class="m">∫g′/(1+g)</span> 型。</p>
+    <p>这是所有"巧题"的统一生成机制——包括讲义里那个出题模板。它不是灵感，是例行检查动作。</p>
+  </div>
+
+  <div class="key">
+    <span class="t">判据 5　三角有理函数的对称性三判据</span>
+    <p>对 <span class="m">∫R(sin x, cos x) dx</span>，逐个检查三件事：</p>
+    <ul>
+      <li><span class="m">R(sin x, −cos x) = −R(sin x, cos x)</span> → 把 cos <span class="m">x</span> 凑进 d，凑出 d(sin <span class="m">x</span>)；</li>
+      <li><span class="m">R(−sin x, cos x) = −R(sin x, cos x)</span> → 把 sin <span class="m">x</span> 凑进 d，凑出 d(cos <span class="m">x</span>)；</li>
+      <li><span class="m">R(−sin x, −cos x) = R(sin x, cos x)</span> → 分子分母同除 cos²<span class="m">x</span> 造出 sec²<span class="m">x</span> d<span class="m">x</span> = d(tan <span class="m">x</span>)。</li>
+    </ul>
+    <p>三条全不满足 → 万能代换 <span class="m">t</span> = tan(<span class="m">x</span>/2) 兜底。前三条都成立（如 <span class="m">1/(sin x cos x)</span>）→ 三条路都走得通，选最短的。</p>
+  </div>
+
+  <h3>判据到动作的速查</h3>
+  <table>
+    <tr><th style="width:26%">式子长相</th><th style="width:30%">触发的判据</th><th>第一个动作</th></tr>
+    <tr><td>被积函数分段给出</td><td>—（考法一）</td><td>分段积分，再用连续性拼接常数</td></tr>
+    <tr><td>有理函数、分母可因式分解</td><td>判据 1</td><td>待定系数裂项（常规武器）</td></tr>
+    <tr><td>分母是 <span class="m">x<sup>n</sup>(1+x<sup>2</sup>)</span> 型</td><td>判据 2（降阶）</td><td>用 <span class="m">(1+x<sup>2</sup>) − x<sup>2</sup> = 1</span> 反复拆</td></tr>
+    <tr><td>分母次数远高于分子</td><td>判据 2（降阶）</td><td>倒代换 <span class="m">x</span> = 1/<span class="m">t</span></td></tr>
+    <tr><td>含 <span class="m">1 + x<sup>4</sup></span></td><td>判据 1</td><td>分子配 <span class="m">1 ± x<sup>2</sup></span>，同除 <span class="m">x<sup>2</sup></span></td></tr>
+    <tr><td>含 <span class="m">√(ax+b)</span> 等</td><td>判据 2（去根号）</td><td>令整个根号 = <span class="m">t</span></td></tr>
+    <tr><td>分母是平方</td><td>判据 3 用法 A</td><td>分母凑进 d，分部降阶</td></tr>
+    <tr><td>含 <span class="m">e<sup>x</sup></span> 乘有理式</td><td>判据 3 用法 B</td><td>拆成两个积分，一个分部造抵消</td></tr>
+    <tr><td>分子像某个东西的导数</td><td>判据 4</td><td>对复杂部分求导验证，再凑 d</td></tr>
+    <tr><td>纯三角有理式</td><td>判据 5</td><td>先查对称性，全不满足才上万能代换</td></tr>
+  </table>
+</section>
+<section>
+  <h2><span class="n">二</span>讲 1　分段函数的不定积分（考法一）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>分段积分不难，难的只有一处：<strong>拼接点的常数要让原函数连续</strong>。这不是"再检查一遍"，而是解题本身的最后一步。</p>
+  </div>
+
+  <h3>原理拆解：为什么必须调常数</h3>
+  <p>在每段上分别积分，会各自带一个任意常数 <span class="m">C<sub>1</sub></span>、<span class="m">C<sub>2</sub></span>，看起来是两个自由度。但"<span class="m">F</span> 是 <span class="m">f</span> 的原函数"这句话本身含有 <span class="m">F</span> 可导、因而连续的要求。原函数连续 ⟹ 两个常数被一个方程联系，真正的自由度仍然只有一个。</p>
+  <p>注意：<strong>只要求连续，不要求可导</strong>。可导性由被积函数 <span class="m">f</span> 在分界点是否连续决定——若 <span class="m">f</span> 本身在分界点连续，则原函数自动可导；若 <span class="m">f</span> 有跳跃，原函数只在分界点左右连续而不可导，这才是正确结果。拿"原函数可导"当检查条件是常见误判。</p>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    设 <span class="m">f(x)</span> 分段给出，求 <span class="m">∫f(x)dx</span>。
+    <span class="src">——2016 年真题，考法一的唯一代表题型</span>
+  </div>
+
+  <h3>示例推演：例题 1（2016）</h3>
+  <p>设 <span class="m">f(x)</span> = 2(<span class="m">x</span>−1) (<span class="m">x</span> &lt; 1)，= ln <span class="m">x</span> (<span class="m">x</span> ≥ 1)，求 <span class="m">∫f(x)dx</span>。</p>
+  <div class="disp">x &lt; 1 段：∫2(x−1)dx = (x−1)<sup>2</sup> + C<sub>1</sub></div>
+  <div class="disp">x ≥ 1 段：∫ln x dx = x ln x − x + C<sub>2</sub></div>
+  <p>在 <span class="m">x</span> = 1 处令左右极限相等（左段在 1 处的值由函数式直接代入，右段同理）：</p>
+  <div class="disp">C<sub>1</sub> = (−1) + C<sub>2</sub>　⟹　C<sub>2</sub> = C<sub>1</sub> + 1</div>
+  <p>把 <span class="m">C<sub>2</sub></span> 换掉、统一写成 <span class="m">C</span> 即得结果。这里 <span class="m">f</span> 在 <span class="m">x</span> = 1 处连续（2·0 = ln 1 = 0），所以原函数在该点其实可导，但我们<strong>不需要</strong>检查这一条。</p>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>两段各写一个 <span class="m">C</span> 就交卷，没做拼接。<strong>这是本考法唯一会扣分的点。</strong></li>
+    <li>去做"原函数在分界点可导"的验证。多余，且当 <span class="m">f</span> 有跳跃时会得出"题目有误"的错误结论。</li>
+    <li>拼接时用了右段的整个表达式而不代入具体数值，比如写 <span class="m">C<sub>1</sub> = x ln x − x + C<sub>2</sub></span>。必须把 <span class="m">x</span> = 1 代进去。</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">三</span>讲 2　有理函数的积分（考法二）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>有理函数有<strong>两条通道</strong>：待定系数法（保底，一定成功但可能很累）与巧妙裂项（改造分子／倒代换，快但需要看出结构）。<strong>先花十秒找结构，找不到再上待定系数。</strong></p>
+  </div>
+
+  <h3>原理拆解：为什么"巧妙裂项"存在</h3>
+  <p>待定系数法的代价随分母因式的重数、二次因式的个数迅速膨胀——例题 2 要解四元一次方程组，中间任何一步算错都要重来。而"巧妙裂项"利用的是<strong>分子分母之间的代数恒等式</strong>（如 <span class="m">1 = (1+x<sup>2</sup>) − x<sup>2</sup></span>），把高次分母逐层剥掉。它的效率来自结构，代价是必须看出来。</p>
+  <p>所以正确的工作顺序是：<strong>先扫一遍分母的因式结构 → 判断能否三步内拆掉 → 拆不动再上待定系数。</strong>待定系数法不是"笨办法"，是"兜底办法"。</p>
+
+  <h3>通道 A：待定系数法裂项</h3>
+  <p>例题 2：<span class="m">∫(30x<sup>2</sup>+40x−50)/((x−2)<sup>2</sup>(x<sup>2</sup>+2x+2))dx</span>。</p>
+  <p>拆解动作分四步，注意第 2 步是<strong>省一半计算量的关键</strong>：</p>
+  <ol>
+    <li>设形：<span class="m">A/(x−2) + B/(x−2)<sup>2</sup> + (Cx+D)/(x<sup>2</sup>+2x+2)</span>。二次因式（判别式 &lt; 0，不可再分解）必须配一次式的分子。</li>
+    <li><strong>用"代入根"先定一个系数</strong>：两边乘 <span class="m">(x−2)<sup>2</sup></span> 后令 <span class="m">x</span> = 2，左边只剩 <span class="m">B</span>，直接得 <span class="m">B</span> = 15，省掉一个未知量。重因式的最高次项系数永远能这样秒出。</li>
+    <li>补齐全式，比对 <span class="m">x<sup>3</sup></span>、<span class="m">x<sup>2</sup></span>、<span class="m">x</span>、常数四项，解出 <span class="m">A</span> = 7、<span class="m">C</span> = −7、<span class="m">D</span> = −13。</li>
+    <li>收尾：把二次因式配方成 <span class="m">(x+1)<sup>2</sup>+1</span>，把 <span class="m">−7x−13</span> 改写成 <span class="m">−7(x+1) − 6</span>，于是自动分裂成"对数项 + 反正切项"两类基本积分。</li>
+  </ol>
+  <div class="disp">结果：7ln|x−2| − 15/(x−2) − (7/2)ln(x<sup>2</sup>+2x+2) − 6arctan(x+1) + C</div>
+  <p>第 4 步的改写 <span class="m">−7x−13 = −7(x+1)−6</span> 是二次因式收尾的标准动作：<strong>配方式的后半段一定要用"一次项凑成配方内部的导数"这个形式</strong>，否则无法直接积。</p>
+
+  <h3>通道 B：其他方法巧妙裂项</h3>
+  <h4>B-1　改造分子：利用 <span class="m">1 = (1+x<sup>2</sup>) − x<sup>2</sup></span></h4>
+  <p>例题 3：<span class="m">∫1/(x<sup>6</sup>(1+x<sup>2</sup>))dx</span>。核心动作是把恒等式 <span class="m">1 = (1+x<sup>2</sup>) − x<sup>2</sup></span> 当"减一层"的工具，反复使用：</p>
+  <div class="disp">1/(x<sup>6</sup>(1+x<sup>2</sup>)) = 1/x<sup>6</sup> − 1/(x<sup>4</sup>(1+x<sup>2</sup>))</div>
+  <div class="disp">1/(x<sup>4</sup>(1+x<sup>2</sup>)) = 1/x<sup>4</sup> − 1/(x<sup>2</sup>(1+x<sup>2</sup>))</div>
+  <div class="disp">1/(x<sup>2</sup>(1+x<sup>2</sup>)) = 1/x<sup>2</sup> − 1/(1+x<sup>2</sup>)</div>
+  <p>三行拆到底，剩下四个幂函数积分和一个 arctan，直接写答案。整个过程只用了减法和记忆中的幂函数积分表。</p>
+  <div class="tip"><strong>动作提炼：</strong>分母出现 <span class="m">x<sup>n</sup>(1+x<sup>2</sup>)</span> 这个组合，第一反应就是在分子上写 <span class="m">(1+x<sup>2</sup>) − x<sup>2</sup></span>。每用一次，分母的 <span class="m">x</span> 的次数降 2。</div>
+
+  <p>类题 1：<span class="m">∫(1+2x<sup>4</sup>)/(x<sup>3</sup>(1+x<sup>4</sup>)<sup>2</sup>)dx</span>。同一族但更绕，先把分子拆成 <span class="m">1</span> 与 <span class="m">2x<sup>4</sup></span> 两块，再对上式用一次 <span class="m">1 = (1+x<sup>4</sup>) − x<sup>4</sup></span>，最终完全化为幂函数与 arctan(<span class="m">x<sup>2</sup></span>) 的组合。这一题的价值是让你看清：<strong>同一恒等式配不同的指数组合，能吃掉一整族题。</strong></p>
+
+  <p>类题 2：<span class="m">∫(1+x<sup>4</sup>)/(1+x<sup>6</sup>)dx</span>。这题不靠减一层，靠的是<strong>把分子改写成分母的因式组合</strong>：</p>
+  <div class="disp">1 + x<sup>6</sup> = (1+x<sup>2</sup>)(x<sup>4</sup>−x<sup>2</sup>+1)，而 1 + x<sup>4</sup> = (x<sup>4</sup>−x<sup>2</sup>+1) + x<sup>2</sup></div>
+  <div class="disp">被积式 = 1/(1+x<sup>2</sup>) + x<sup>2</sup>/(1+x<sup>6</sup>)</div>
+  <p>后一项凑 d(<span class="m">x<sup>3</sup></span>)（因为 d(<span class="m">x<sup>3</sup></span>) = 3<span class="m">x<sup>2</sup></span>d<span class="m">x</span>），化为 arctan 型。答案 <span class="m">arctan x + (1/3)arctan(x<sup>3</sup>) + C</span>。<strong>动作提炼：分母是 <span class="m">1+x<sup>6</sup></span>，先想 <span class="m">1+x<sup>6</sup>=(1+x<sup>2</sup>)(1−x<sup>2</sup>+x<sup>4</sup>)</span>，再看分子能不能配成这两块的组合。</strong></p>
+
+  <h4>B-2　倒代换：分母次数远高于分子时</h4>
+  <p>例题 4 与例题 3 是<strong>同一道题</strong>（讲义在此处重复收录，正是为了对照两种解法）。用 <span class="m">x</span> = 1/<span class="m">t</span> 走一遍：</p>
+  <div class="disp">1/(x<sup>6</sup>(1+x<sup>2</sup>)) · dx = −t<sup>6</sup>/(1+t<sup>2</sup>) dt</div>
+  <p>换来的是<strong>一个假分式</strong>，做一次多项式除法即得 <span class="m">t<sup>4</sup> − t<sup>2</sup> + 1 − 1/(1+t<sup>2</sup>)</span>，逐项可积。结果与例题 3 相同（差一个常数，来自 arctan(1/<span class="m">t</span>) 与 −arctan <span class="m">t</span> 的关系，在 <span class="m">x</span> &gt; 0 上成立）。</p>
+  <div class="tip"><strong>两条通道的取舍：</strong>改造分子保留原变量，步骤少但要求看出恒等式；倒代换机械可靠，代价是要做多项式除法并把答案换回原变量。看到"分母次数比分子高 4 次以上"就优先考虑倒代换。</div>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>见到有理函数就直接上待定系数，错过三行减法能解决的题。</li>
+    <li>待定系数时设错形：二次因式（判别式 &lt; 0）的分子必须是 <span class="m">Cx+D</span> 而不能只写常数；重因式的每一重都要单独设项。</li>
+    <li>倒代换后忘记把答案换回 <span class="m">x</span>，或换回时把 <span class="m">√</span> 的符号弄错。</li>
+    <li>分母是 <span class="m">1+x<sup>4</sup></span> 却去硬做因式分解（见讲 3）。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">四</span>讲 3　<span class="m">1/(1+x<sup>4</sup>)</span> 家族（考法二·三）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>分母出现 <span class="m">1 + kx<sup>2</sup> + x<sup>4</sup></span> 这类"首尾对称"的四次式，一律走同一条路：<strong>分子配成 <span class="m">1 ± x<sup>2</sup></span>，然后上下同除 <span class="m">x<sup>2</sup></span>，把式子整理成关于 <span class="m">x ± 1/x</span> 的函数。</strong>这不是技巧，是一族题的统一母法。</p>
+  </div>
+
+  <h3>原理拆解：为什么是"配 <span class="m">1 ± x<sup>2</sup></span>"</h3>
+  <p>关键的代数事实有两条：</p>
+  <ul>
+    <li>上下同除 <span class="m">x<sup>2</sup></span> 后，<span class="m">x<sup>2</sup> + 1/x<sup>2</sup> = (x − 1/x)<sup>2</sup> + 2</span>——分母变成 <span class="m">x − 1/x</span> 的二次式；</li>
+    <li>而 <span class="m">d(x − 1/x) = (1 + 1/x<sup>2</sup>)dx</span>，恰好对应分子 <span class="m">1 + x<sup>2</sup></span> 同除 <span class="m">x<sup>2</sup></span> 后的结果。</li>
+  </ul>
+  <p>两条一拼，就得到"分子即分母所配变量的导数"这一完美结构。同理，分子取 <span class="m">1 − x<sup>2</sup></span> 时得到的是 <span class="m">x + 1/x</span>（因为 <span class="m">d(x + 1/x) = (1 − 1/x<sup>2</sup>)dx</span>，而 <span class="m">x<sup>2</sup>+1/x<sup>2</sup> = (x+1/x)<sup>2</sup> − 2</span>）。<strong>两个分子各配一个变量，这不是巧合，是恒等式配对。</strong></p>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    本题非常经典，通过这个题目，我们可以解决所有形如 <span class="m">∫(1 ± x<sup>2</sup>)/(1 + kx<sup>2</sup> + x<sup>4</sup>) dx</span> 的积分。
+    <span class="src">——讲义例题 5 注 1</span>
+  </div>
+  <div class="quote">
+    也可因式分解，<span class="m">1+x<sup>4</sup> = (1+x<sup>2</sup>)<sup>2</sup> − 2x<sup>2</sup> = (1+x<sup>2</sup>+√2 x)(1+x<sup>2</sup>−√2 x)</span>，但计算量大。
+    <span class="src">——讲义例题 5 注 2。这条注记本身就是判据：看到四次分母，先问"能不能不分解成两个二次因式"</span>
+  </div>
+
+  <h3>示例推演：例题 5 与类题 1</h3>
+  <p><strong>例题 5：</strong><span class="m">∫(1+x<sup>2</sup>)/(1+x<sup>4</sup>)dx</span>。上下同除 <span class="m">x<sup>2</sup></span>：</p>
+  <div class="disp">被积式 = (1 + 1/x<sup>2</sup>) / (x<sup>2</sup> + 1/x<sup>2</sup>) = (1 + 1/x<sup>2</sup>) / ((x − 1/x)<sup>2</sup> + 2)</div>
+  <p>令 <span class="m">t</span> = <span class="m">x</span> − 1/<span class="m">x</span>，则分子整体即 d<span class="m">t</span>：</p>
+  <div class="disp">∫dt/(t<sup>2</sup>+2) = (1/√2)arctan(t/√2) + C，t = x − 1/x</div>
+
+  <p><strong>类题 1：</strong><span class="m">∫(1−x<sup>2</sup>)/(1+x<sup>4</sup>)dx</span>。同样除 <span class="m">x<sup>2</sup></span>：</p>
+  <div class="disp">被积式 = −(1 − 1/x<sup>2</sup>) / ((x + 1/x)<sup>2</sup> − 2)</div>
+  <div class="disp">令 u = x + 1/x：−∫du/(u<sup>2</sup>−2) = −(1/(2√2))ln|(u−√2)/(u+√2)| + C</div>
+
+  <p><strong>两式相加减</strong>即得讲义反复提到的那条副产品——这也是整个"配对法"最漂亮的地方：</p>
+  <div class="disp">∫1/(1+x<sup>4</sup>)dx = (1/2)[上式一 + 上式二]</div>
+  <div class="disp">= (1/(2√2))arctan((x<sup>2</sup>−1)/(√2 x)) + (1/(4√2))ln|(x<sup>2</sup>−√2 x+1)/(x<sup>2</sup>+√2 x+1)| + C</div>
+  <p>注意 <span class="m">(x − 1/x)/√2 = (x<sup>2</sup>−1)/(√2 x)</span>，这是回代时最容易写错的一步。</p>
+
+  <h3>推广：例题 6 <span class="m">∫√(tan x)dx</span></h3>
+  <p>这题表面与 <span class="m">1+x<sup>4</sup></span> 无关，实际<strong>被归入同一族</strong>。令 <span class="m">t</span> = √(tan <span class="m">x</span>)，则 tan <span class="m">x</span> = <span class="m">t<sup>2</sup></span>，<span class="m">x</span> = arctan(<span class="m">t<sup>2</sup></span>)，d<span class="m">x</span> = 2<span class="m">t</span>/(1+<span class="m">t<sup>4</sup></span>) d<span class="m">t</span>：</p>
+  <div class="disp">∫√(tan x)dx = ∫ t · 2t/(1+t<sup>4</sup>) dt = 2∫ t<sup>2</sup>/(1+t<sup>4</sup>) dt</div>
+  <p>而 <span class="m">t<sup>2</sup>/(1+t<sup>4</sup>) = (1/2)[(1+t<sup>2</sup>)/(1+t<sup>4</sup>) − (1−t<sup>2</sup>)/(1+t<sup>4</sup>)]</span>，正是刚做完的两块之差，直接抄结果即可。</p>
+  <div class="tip"><strong>动作提炼：</strong>凡是被积函数里有 tan <span class="m">x</span>、且只以 <span class="m">√(tan x)</span> 或 tan <span class="m">x</span> 的形式出现，先试 <span class="m">t</span> = √(tan x)；代换后若出现 <span class="m">1+t<sup>4</sup></span>，立刻调出本讲的母法。</div>
+
+  <h3>类题 2：<span class="m">∫1/(1+x<sup>6</sup>)dx</span></h3>
+  <p>不能直接套母法（分母是六次），但可以先<strong>降成"两个已知块"的和</strong>：设 <span class="m">1/((1+x<sup>2</sup>)(1−x<sup>2</sup>+x<sup>4</sup>)) = (A+Bx)/(1+x<sup>2</sup>) + (C+Dx<sup>2</sup>)/(1−x<sup>2</sup>+x<sup>4</sup>)</span>，比对得 <span class="m">A = C = 1/2</span>、<span class="m">B = 0</span>、<span class="m">D = −1/2</span>，于是</p>
+  <div class="disp">∫1/(1+x<sup>6</sup>)dx = (1/2)arctan x − (1/(4√3))ln|(x<sup>2</sup>−√3 x+1)/(x<sup>2</sup>+√3 x+1)| + C</div>
+  <p>第二块用的还是"配 <span class="m">1−x<sup>2</sup></span> + 同除 <span class="m">x<sup>2</sup></span>"，只是常数从 2 变成 3。这再一次说明：<strong>母法管的是"分子是分母配变量的导数"，分母的具体常数只影响最后一步的基本积分表查表。</strong></p>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>去硬做因式分解 <span class="m">(1+x<sup>2</sup>+√2 x)(1+x<sup>2</sup>−√2 x)</span>，然后待定系数。算得出来，但四元方程组 + 两个二次因式的收尾，是例题 5 的十几倍工作量。</li>
+    <li>只记住"同除 <span class="m">x<sup>2</sup></span>"，忘了分子必须先写成 <span class="m">1 ± x<sup>2</sup></span>。若分子不是这个形状（如 <span class="m">∫x<sup>2</sup>/(1+x<sup>4</sup>)dx</span>），要先用恒等式拆成两个标准分子的组合。</li>
+    <li>回代时把 <span class="m">(x−1/x)/√2</span> 写成 <span class="m">(x<sup>2</sup>−1)/(√2 x<sup>2</sup>)</span> 之类的形式。</li>
+    <li>把"配对法"当成只对 <span class="m">1+x<sup>4</sup></span> 有效。它对 <span class="m">1+kx<sup>2</sup>+x<sup>4</sup></span>（<span class="m">k</span> 任意）一律有效。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">五</span>讲 4　换元法：如何去掉根号（考法三·一）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>换元的唯一验收标准是：<strong>换完以后根号消失了</strong>。讲义给的四条套路只是最常命中的四种情形，不是必须遵守的规矩。</p>
+  </div>
+
+  <h3>四条套路（讲义原文）</h3>
+  <table>
+    <tr><th style="width:46%">根号内的形状</th><th>换元动作</th></tr>
+    <tr><td><span class="m">√(一次函数)</span></td><td>令整个根号 = <span class="m">t</span></td></tr>
+    <tr><td><span class="m">√(一次函数 / 一次函数)</span></td><td>令整个根号 = <span class="m">t</span></td></tr>
+    <tr><td><span class="m">√(a·e<sup>x</sup> + b)</span></td><td>令整个根号 = <span class="m">t</span></td></tr>
+    <tr><td><span class="m">√((a·e<sup>x</sup>+b)/(c·e<sup>x</sup>+d))</span></td><td>令整个根号 = <span class="m">t</span></td></tr>
+  </table>
+  <p>四条的共同动作都是同一句：<strong>令整个根号等于 <span class="m">t</span></strong>，然后<strong>反解出 <span class="m">x</span></strong>。反解出来后 <span class="m">e<sup>x</sup></span>、<span class="m">x</span> 都变成 <span class="m">t</span> 的有理式，d<span class="m">x</span> 也变成有理式。这就是"根式 → 有理式"的标准通道。</p>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    不必完全拘泥于上面的套路，只要我们的换元是能够去掉根号的就可以了。
+    <span class="src">——讲义考法三（一）。这句话是全讲最重要的判据，以下是四个"不走套路"的示范</span>
+  </div>
+
+  <h3>示例推演：例题 10（教材）</h3>
+  <p><span class="m">∫1/∛((x+1)<sup>2</sup>(x−1)<sup>4</sup>) dx</span>。写成幂函数形式看结构：</p>
+  <div class="disp">(x+1)<sup>−2/3</sup>(x−1)<sup>−4/3</sup></div>
+  <p>指数分母都是 3，且两个一次因式的<strong>指数和为 −2</strong>（不是 −1，所以不是简单的 <span class="m">t</span> = 根号可比）。采用"令两个因式之比开三次方"的动作：</p>
+  <div class="disp">令 t = ∛((x−1)/(x+1))　⟹　x = (1+t<sup>3</sup>)/(1−t<sup>3</sup>)</div>
+  <p>由这个 <span class="m">x</span> 反解式可以算出 <span class="m">x+1 = 2/(1−t<sup>3</sup>)</span>、<span class="m">x−1 = 2t<sup>3</sup>/(1−t<sup>3</sup>)</span>。代回后所有分式因式全部相消：</p>
+  <div class="disp">被积式 = (3/2) t<sup>−2</sup> dt　⟹　积分 = −3/(2t) + C = −(3/2)·∛((x+1)/(x−1)) + C</div>
+  <div class="tip"><strong>动作提炼：</strong>根号里是两个一次因式的幂、且指数之差恰好是 1（即分母相同）时，令它们的<strong>比值</strong>开那个次方。这是套路之外最有价值的一条。</div>
+
+  <h3>另外三个不走套路的示范（结构与关键一步）</h3>
+
+  <p><strong>例题 7：</strong><span class="m">∫1/√(x<sup>3</sup>(1−x)) dx</span>。根号里含 <span class="m">x<sup>3</sup></span>，倒代换 <span class="m">x</span> = 1/<span class="m">t</span> 后根号整体塌缩：</p>
+  <div class="disp">被积式 = −dt/√(t−1)　⟹　答案 = −2√((1−x)/x) + C</div>
+
+  <p><strong>例题 8：</strong><span class="m">∫1/(√2 + √(1+x) + √(1−x)) dx</span>。这里<strong>换元不是首选，有理化才是</strong>：注意到 <span class="m">(√(1+x)+√(1−x))<sup>2</sup> − 2 = 2√(1−x<sup>2</sup>)</span>，分子分母同乘 <span class="m">(√(1+x)+√(1−x)−√2)</span>，分母立刻变成 <span class="m">2√(1−x<sup>2</sup>)</span>，剩下的两块是 <span class="m">∫dx/√(1±x)</span>：</p>
+  <div class="disp">答案 = √(1+x) − √(1−x) − (√2/2)arcsin x + C</div>
+
+  <p><strong>例题 9：</strong><span class="m">∫<sub>0</sub><sup>1</sup> arcsin√x / √(x(1−x)) dx</span>。这题<strong>不要动根号，动 arcsin</strong>：令 <span class="m">t</span> = arcsin√<span class="m">x</span>，则 √<span class="m">x</span> = sin <span class="m">t</span>、<span class="m">x</span> = sin²<span class="m">t</span>、d<span class="m">x</span> = 2 sin <span class="m">t</span> cos <span class="m">t</span> d<span class="m">t</span>，而 √(x(1−x)) = sin <span class="m">t</span> cos <span class="m">t</span>。整个被积式塌缩成 <span class="m">2t</span> d<span class="m">t</span>：</p>
+  <div class="disp">∫<sub>0</sub><sup>π/2</sup> 2t dt = π<sup>2</sup>/4</div>
+  <div class="tip"><strong>动作提炼：</strong>见到 arcsin 与 √(x(1−x)) 同时出现，令 <span class="m">t</span> = arcsin√<span class="m">x</span> 或 <span class="m">x</span> = sin²<span class="m">t</span>——因为 <span class="m">√(x(1−x))</span> 正是 sin<span class="m">t</span>cos<span class="m">t</span>，而 d<span class="m">x</span> 中的 <span class="m">2sin t cos t</span> 会把它约掉。</div>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>换元后忘记换积分限（定积分），或忘记把答案换回原变量（不定积分）。</li>
+    <li>死守"根号 = <span class="m">t</span>"的套路，在 <span class="m">√(x<sup>3</sup>(1−x))</span> 这种"根号里是乘积的高次幂"的题上撞墙。这类的信号是<strong>根号内是乘积而不是单个一次式</strong>，此时倒代换或有理化更有效。</li>
+    <li>把 arcsin 当成障碍物想先消掉它。例题 9 里 arcsin 恰恰是钥匙，因为它的反函数能把 <span class="m">√(x(1−x))</span> 一起带走。</li>
+    <li>换元方向搞反：例题 10 令的是<strong>比值</strong> <span class="m">∛((x−1)/(x+1))</span>，不是 <span class="m">∛(x−1)</span> 或 <span class="m">∛((x+1)(x−1))</span>。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">六</span>讲 5　分部积分的四种用法（考法三·二三四五）</h2>
+
+  <p>讲 5 是整份讲义的重心。分部积分不是"照公式套"，而是有四种彼此独立的战术用途。分辨它们，靠的是看被积函数的形状。</p>
+
+  <h3>用法零：在 d 后加上恰当的常数</h3>
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>当 <span class="m">∫v dx</span> 本身不方便时，取 <span class="m">∫v dx</span> = <span class="m">V</span> + <span class="m">a</span>（任意常数 <span class="m">a</span>），分部公式依然成立。<strong>选 <span class="m">a</span> 的标准是：让下一步的 <span class="m">∫(V+a)·u′dx</span> 尽量简单。</strong></p>
+  </div>
+  <p>例题 11：<span class="m">∫x·ln(1+x<sup>2</sup>)·arctan x dx</span>。d<span class="m">x</span> 配 <span class="m">x</span> 时，取 <span class="m">V</span> = <span class="m">(1+x<sup>2</sup>)/2</span>（而不是 <span class="m">x<sup>2</sup>/2</span>）。这样下一步要积的式子是</p>
+  <div class="disp">∫(1+x<sup>2</sup>)/2 · [2x/(1+x<sup>2</sup>)·arctan x + ln(1+x<sup>2</sup>)/(1+x<sup>2</sup>)] dx</div>
+  <p>第一项的 <span class="m">(1+x<sup>2</sup>)</span> 与分母精确相消，只剩 <span class="m">∫x arctan x dx</span>——一个已知的基本题。若当初取 <span class="m">x<sup>2</sup>/2</span>，这个相消就不会发生，后面要多花一倍篇幅。</p>
+  <div class="tip"><strong>动作提炼：</strong>被积函数里有 <span class="m">1+x<sup>2</sup></span> 及其导数 <span class="m">2x</span> 的影子时，d 后面配 <span class="m">(1+x<sup>2</sup>)/2</span>。这条与"配方收尾""配对法"是同一个思想的三种面孔。<strong>常数自由度是白送的，不用白不用。</strong></div>
+
+  <h3>用法一：既要换元、又要分部（重点）</h3>
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>换元把式子变成 <span class="m">∫(t 的多项式)·(反三角或对数) dt</span> 之后，<strong>不要再回代，直接在这个 <span class="m">t</span> 世界里分部</strong>。</p>
+  </div>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    解出 <span class="m">x</span> = 1/(<span class="m">t<sup>2</sup></span>−1) 后，千万不要将 d<span class="m">x</span> 具体计算出来，而应该直接分部积分。
+    <span class="src">——讲义例题 13 注。不要把 <span class="m">x</span> 与 d<span class="m">x</span> 换成 <span class="m">t</span> 与 d<span class="m">t</span>，而是把整个 d<span class="m">x</span> 换成含 d<span class="m">t</span> 的表达式后再分部</span>
+  </div>
+
+  <h3>示例推演：例题 12（2018）</h3>
+  <p><span class="m">∫e<sup>2x</sup> arctan√(e<sup>x</sup>−1) dx</span>。令 <span class="m">t</span> = √(e<sup>x</sup>−1)：</p>
+  <div class="disp">e<sup>x</sup> = 1+t<sup>2</sup>，dx = 2t/(1+t<sup>2</sup>)dt，e<sup>2x</sup> = (1+t<sup>2</sup>)<sup>2</sup></div>
+  <div class="disp">被积式 = 2t(1+t<sup>2</sup>)arctan t dt</div>
+  <p>此时指数函数、根号全部消失，只剩"多项式 × arctan"——这正是分部的标准长相。取 <span class="m">u</span> = arctan <span class="m">t</span>、d<span class="m">v</span> = 2<span class="m">t</span>(1+<span class="m">t<sup>2</sup></span>)d<span class="m">t</span>，则 <span class="m">v</span> = <span class="m">t<sup>2</sup></span> + <span class="m">t<sup>4</sup></span>/2：</p>
+  <div class="disp">= (t<sup>2</sup>+t<sup>4</sup>/2)arctan t − ∫(t<sup>2</sup>+t<sup>4</sup>/2)/(1+t<sup>2</sup>)dt</div>
+  <p>后一个积分做一次多项式除法即得 <span class="m">(1/2)(1+t<sup>2</sup>) − (1/2)/(1+t<sup>2</sup>)</span>，逐项可积。最后回代 <span class="m">t</span> = √(e<sup>x</sup>−1)，注意 <span class="m">(1+t<sup>2</sup>)<sup>2</sup> = e<sup>2x</sup></span>，答案可以写得很干净：</p>
+  <div class="disp">= (1/2)e<sup>2x</sup>arctan√(e<sup>x</sup>−1) − (1/2)√(e<sup>x</sup>−1) − (1/6)(e<sup>x</sup>−1)<sup>3/2</sup> + C</div>
+
+  <p><strong>类题：</strong><span class="m">∫√(x−1)·arctan√(x−1)/x dx</span>。同样令 <span class="m">t</span> = √(x−1)，被积式变成 <span class="m">2t<sup>2</sup>arctan t/(1+t<sup>2</sup>)</span>。这次的分部前先做一步拆分：</p>
+  <div class="disp">2t<sup>2</sup>/(1+t<sup>2</sup>) = 2 − 2/(1+t<sup>2</sup>)</div>
+  <p>于是第一块是 <span class="m">∫2arctan t dt</span>（分部），第二块是 <span class="m">−2∫arctan t/(1+t<sup>2</sup>)dt</span>（凑 d(arctan <span class="m">t</span>)，根本不用分部）。答案含 <span class="m">−ln x</span> 与 <span class="m">−(arctan√(x−1))<sup>2</sup></span>。<strong>动作提炼：换元后先做一次假分式拆分，往往能把"难积的一块"变成"已知的一块"。</strong></p>
+
+  <p><strong>例题 13（2009）：</strong><span class="m">∫ln(1+√((1+x)/x))dx</span>（<span class="m">x</span> &gt; 0）。令 <span class="m">t</span> = √((1+x)/<span class="m">x</span>)，反解得 <span class="m">x</span> = 1/(<span class="m">t<sup>2</sup></span>−1)，由此 d<span class="m">x</span> = −2<span class="m">t</span>/(<span class="m">t<sup>2</sup></span>−1)<sup>2</sup> d<span class="m">t</span>。这时不急着把对数里的 <span class="m">x</span> 也代换，而是<strong>直接把 1/(<span class="m">t<sup>2</sup></span>−1) 当作分部中的 <span class="m">v</span></strong>：</p>
+  <div class="disp">∫ln(1+t)·[−2t/(t<sup>2</sup>−1)<sup>2</sup>]dt = ln(1+t)/(t<sup>2</sup>−1) − ∫dt/((t<sup>2</sup>−1)(1+t))</div>
+  <p>因为 d[1/(<span class="m">t<sup>2</sup></span>−1)] = −2<span class="m">t</span>/(<span class="m">t<sup>2</sup></span>−1)<sup>2</sup>，<span class="m">v</span> 不需要算积分就现成了。剩下的有理函数拆成 <span class="m">(1/4)/(t−1) − (1/4)/(t+1) − (1/2)/(t+1)<sup>2</sup></span>，逐项可积。<strong>这题的教益是：当 d<span class="m">x</span> 换出来的是一个现成导数时，"换元"与"分部"可以一次完成。</strong></p>
+
+  <h3>用法二：利用分部积分对分母降阶</h3>
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>分母次数太高时，除了倒代换，还有第二条路：<strong>把分母凑到 d 后面，然后分部</strong>。分母降一次，分子升一次。适用信号：分母是平方或更高次，且分子里含 <span class="m">e<sup>x</sup></span> 这类"求导不变形"的因子。</p>
+  </div>
+  <p>这是基础篇 <span class="m">∫x<sup>2</sup>/(a<sup>2</sup>+x<sup>2</sup>)<sup>2</sup>dx</span> 的推广。例题 14：<span class="m">∫xe<sup>x</sup>/(1+x)<sup>2</sup>dx</span>。</p>
+  <div class="disp">取 u = xe<sup>x</sup>，dv = dx/(1+x)<sup>2</sup>　⟹　v = −1/(1+x)</div>
+  <div class="disp">= −xe<sup>x</sup>/(1+x) + ∫(x+1)e<sup>x</sup>/(1+x) dx = −xe<sup>x</sup>/(1+x) + e<sup>x</sup> + C = e<sup>x</sup>/(1+x) + C</div>
+  <p>关键在 <span class="m">(xe<sup>x</sup>)′ = (x+1)e<sup>x</sup></span> 恰好含因子 <span class="m">(x+1)</span>，与降阶后剩下的 <span class="m">1/(1+x)</span> 相消。这就是判据：<strong>选 <span class="m">u</span> 时，让它的导数能约掉降阶后的分母。</strong></p>
+
+  <h3>用法三：利用分部积分实现"积分抵消"</h3>
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>把一个积分拆成 <span class="m">I<sub>1</sub></span> + <span class="m">I<sub>2</sub></span>，<span class="m">I<sub>1</sub></span> 不动，<span class="m">I<sub>2</sub></span> 分部，分部产生的新积分恰好是 −<span class="m">I<sub>1</sub></span>，两者相消。被积函数中"一般"含有指数函数。</p>
+  </div>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    本题的背景是 <span class="m">∫e<sup>x</sup>[f(x) + f′(x)]dx = e<sup>x</sup>f(x) + C</span>。
+    <span class="src">——讲义例题 15 注。这个恒等式是"抵消"战术的母公式</span>
+  </div>
+  <p>母公式的推导本身就是"拆成两块、一块分部"的演示：<span class="m">∫e<sup>x</sup>f′dx</span> 分部后得到 <span class="m">e<sup>x</sup>f − ∫e<sup>x</sup>f dx</span>，与前面的 <span class="m">∫e<sup>x</sup>f dx</span> 相消，只剩边界项 <span class="m">e<sup>x</sup>f</span>。<strong>记住这个推导，比记住公式本身重要——它是判据 3 的原型。</strong></p>
+  <p>例题 15：<span class="m">∫xe<sup>x</sup>/(1+x)<sup>2</sup>dx</span>（与例题 14 同题，两条路都通）。把 <span class="m">x</span> 写成 <span class="m">(1+x) − 1</span>：</p>
+  <div class="disp">xe<sup>x</sup>/(1+x)<sup>2</sup> = e<sup>x</sup>[1/(1+x) − 1/(1+x)<sup>2</sup>] = e<sup>x</sup>[f(x) + f′(x)]，f(x) = 1/(1+x)</div>
+  <div class="disp">答案 = e<sup>x</sup>/(1+x) + C</div>
+  <p>对照即可看出两条路的差别：用法二（降阶）是先分部再相消，用法三（抵消）是先凑成 <span class="m">f + f′</span> 再套公式。同一道题两种写法，说明这两种用法在结构上是同一件事的两个视角。</p>
+
+  <h3>用法三的推广一：<span class="m">e<sup>f(x)</sup></span> 情形</h3>
+  <p>类题：<span class="m">∫(1+sin x)e<sup>x</sup>/(1+cos x) dx</span>。先把三角部分化简成"某个函数的和与导数"：</p>
+  <div class="disp">(1+sin x)/(1+cos x) = (1/2)sec<sup>2</sup>(x/2) + tan(x/2) = f′(x) + f(x)，f(x) = tan(x/2)</div>
+  <div class="disp">答案 = e<sup>x</sup>tan(x/2) + C</div>
+  <p>注意这里是<strong>先用三角恒等式把式子调成 <span class="m">f + f′</span>，再套母公式</strong>。动作顺序是"先化简结构、再识别母公式"，而不是硬拆两个积分。</p>
+
+  <p>例题 16（教材）：<span class="m">∫e<sup>sin x</sup>(x cos<sup>3</sup>x − sin x)/cos<sup>2</sup>x dx</span>。这里出现的是 <span class="m">e<sup>f(x)</sup></span>，母公式中的 <span class="m">e<sup>x</sup></span> 换成 <span class="m">e<sup>sin x</sup></span> 后不再有"求导不变形"的性质，<strong>必须真的分部</strong>。把被积式拆成两块：</p>
+  <div class="disp">I<sub>1</sub> = ∫x cos x · e<sup>sin x</sup>dx，　I<sub>2</sub> = −∫(sin x / cos<sup>2</sup>x)e<sup>sin x</sup>dx</div>
+  <p>对 <span class="m">I<sub>1</sub></span> 分部（<span class="m">dv</span> = cos <span class="m">x</span> e<sup>sin x</sup>d<span class="m">x</span>，故 <span class="m">v</span> = e<sup>sin x</sup>）得 <span class="m">xe<sup>sin x</sup> − ∫e<sup>sin x</sup>dx</span>；对 <span class="m">I<sub>2</sub></span> 分部（注意 d(sec <span class="m">x</span>) = sin <span class="m">x</span>/cos<sup>2</sup><span class="m">x</span> d<span class="m">x</span>）得 <span class="m">−sec x e<sup>sin x</sup> + ∫e<sup>sin x</sup>dx</span>。两块一相加，<span class="m">∫e<sup>sin x</sup>dx</span> 精确相消：</p>
+  <div class="disp">答案 = e<sup>sin x</sup>(x − sec x) + C</div>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    难道"分部积分 + 积分抵消"的思想，只能用在被积函数出现 <span class="m">e<sup>x</sup></span> 的情形吗？其实也不尽然，有的题目，被积函数中出现的是 <span class="m">e<sup>f(x)</sup></span>，甚至都没有指数函数出现，也可尝试该方法。但是对于这种题，就无法利用 <span class="m">[e<sup>x</sup>f(x)]′ = e<sup>x</sup>[f(x)+f′(x)]</span> 的公式了，必须使用分部积分。
+    <span class="src">——讲义考法三（五）注。这条注记把"抵消"从"公式回忆"升级为"结构识别"</span>
+  </div>
+
+  <h3>用法三的推广二：没有指数函数，靠 PR 结构相消</h3>
+  <p>下面四道题被积函数里都没有指数函数，"抵消"靠的是<strong>分子恰好是某个分式的导数</strong>（判据 4 的预告）：</p>
+  <table>
+    <tr><th style="width:44%">题目</th><th>抵消所依赖的导数关系</th></tr>
+    <tr><td><span class="m">∫(1+x−1/x)e<sup>x+1/x</sup>dx</span></td><td><span class="m">[x e<sup>x+1/x</sup>]′ = e<sup>x+1/x</sup>(1+x−1/x)</span>；答案 <span class="m">xe<sup>x+1/x</sup> + C</span></td></tr>
+    <tr><td><span class="m">∫(ln ln x + 1/ln x)dx</span></td><td><span class="m">[x ln ln x]′ = ln ln x + 1/ln x</span>；答案 <span class="m">x ln ln x + C</span></td></tr>
+    <tr><td><span class="m">∫[ln(1+x)−ln x]/[x(1+x)]dx</span></td><td>被积式 <span class="m">= −u·u′</span>（<span class="m">u</span> = ln(1+x)−ln x）；答案 <span class="m">−(1/2)ln<sup>2</sup>((1+x)/x) + C</span></td></tr>
+    <tr><td><span class="m">∫(1−ln x)/(x−ln x)<sup>2</sup>dx</span></td><td><span class="m">[x/(x−ln x)]′ = (1−ln x)/(x−ln x)<sup>2</sup></span>；答案 <span class="m">x/(x−ln x) + C</span></td></tr>
+  </table>
+  <p>四道题的动作是同一个：<strong>把最复杂的那一块求一次导，看它是否等于分子。</strong>这就是下一讲的判据 4。</p>
+</section>
+<section>
+  <h2><span class="n">七</span>讲 6　对复杂部分求导，期待出现奇迹（考法五）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>把被积函数里<strong>最复杂的那一块求一次导</strong>，若结果恰好出现在分子上，整个积分就化为 <span class="m">∫g′/g</span> 或 <span class="m">∫g′/(1+g)</span> 型，一眼可积。这不是灵感，是<strong>例行检查动作</strong>——而且这些"巧题"本身就是按这个机制造出来的。</p>
+  </div>
+
+  <h3>原理拆解：这类题是被"造"出来的</h3>
+  <p>讲义原文直接给出了出题模板，看清楚它，这一讲的题目就全部变成同一道题：</p>
+  <div class="disp">∫(1 + x f′(x)) / (x(1 + x e<sup>f(x)</sup>)) dx = ∫[x e<sup>f(x)</sup>]′ / [x e<sup>f(x)</sup>(1 + x e<sup>f(x)</sup>)] dx = ln|x e<sup>f(x)</sup>/(1 + x e<sup>f(x)</sup>)| + C</div>
+  <p>模板的构造逻辑只有三步：① 选一个复杂对象 <span class="m">g</span> = <span class="m">x e<sup>f(x)</sup></span>；② 算出 <span class="m">g′</span> = <span class="m">(1 + x f′(x))e<sup>f(x)</sup></span>；③ 把被积函数写成 <span class="m">g′/[g(1+g)]</span> 的形式（顺手在分子分母乘 <span class="m">e<sup>f(x)</sup></span> 以便隐藏原式）。</p>
+  <div class="quote">
+    如果取 <span class="m">f(x)</span> = arctan <span class="m">x</span>，代入出题模板，稍作变形，即可原创一道题目：<span class="m">∫(1+x+x<sup>2</sup>)/((1+x<sup>2</sup>)(x+x<sup>2</sup>e<sup>arctan x</sup>))dx</span>。
+    <span class="src">——讲义考法五注。这条注记把"猜"变成了"验证"</span>
+  </div>
+  <p>读完这段，做这类题的立场完全变了：<strong>不是去猜分母能拆成什么，而是先算 <span class="m">g′</span>，再比对分子。</strong></p>
+
+  <h3>示例推演：例题 19 与例题 20</h3>
+  <p><strong>例题 19：</strong><span class="m">∫ln x / √(1 + [x(ln x − 1)]<sup>2</sup>) dx</span>。根号里那个"复杂对象"是</p>
+  <div class="disp">g(x) = x(ln x − 1) = x ln x − x　⟹　g′(x) = ln x + 1 − 1 = ln x</div>
+  <p>分子正是 <span class="m">g′</span>！于是被积式 = <span class="m">g′/√(1+g<sup>2</sup>)</span>，这是基本积分表中的反双曲正弦型：</p>
+  <div class="disp">答案 = ln|x(ln x − 1) + √(1 + [x(ln x − 1)]<sup>2</sup>)| + C</div>
+  <p>注意 <span class="m">g</span> 的"展开式" <span class="m">x ln x − x</span> 求导时两项恰好消掉一项，这不是巧合，而是设计者刻意选中了一个导数干净的对象。</p>
+
+  <p><strong>例题 20：</strong><span class="m">∫(x+1)/(x(1+xe<sup>x</sup>)) dx</span>。试着对分母里的 <span class="m">xe<sup>x</sup></span> 求导：</p>
+  <div class="disp">(xe<sup>x</sup>)′ = (x+1)e<sup>x</sup></div>
+  <p>分子 <span class="m">x+1</span> 出现了，只差一个 <span class="m">e<sup>x</sup></span>。为了补上它，<strong>分子分母同乘 e<sup>x</sup></strong>：</p>
+  <div class="disp">被积式 = (x+1)e<sup>x</sup> / [xe<sup>x</sup>(1+xe<sup>x</sup>)] = g′/[g(1+g)]，g = xe<sup>x</sup></div>
+  <div class="disp">答案 = ln|xe<sup>x</sup>/(1+xe<sup>x</sup>)| + C</div>
+  <div class="tip"><strong>动作提炼：</strong>"同乘 <span class="m">e<sup>f(x)</sup></span>"是这类题<strong>唯一的隐藏动作</strong>。它看起来像凭空造出的技巧，实际上是模板第 ③ 步的逆操作——出题人正是靠这一步把 <span class="m">g′/[g(1+g)]</span> 伪装成普通有理式。</div>
+
+  <p><strong>类题：</strong><span class="m">∫(1+x cos x)/(x(1+xe<sup>sin x</sup>))dx</span>。同一步动作：<span class="m">(xe<sup>sin x</sup>)′ = e<sup>sin x</sup>(1+x cos x)</span>，分子分母同乘 <span class="m">e<sup>sin x</sup></span>，答案 <span class="m">ln|xe<sup>sin x</sup>/(1+xe<sup>sin x</sup>)| + C</span>。<strong>把 <span class="m">f</span> 从 <span class="m">x</span> 换成 sin <span class="m">x</span>，题还是同一道题。</strong></p>
+
+  <p><strong>例题 21 与类题：</strong>这一组属于"求导后是分式"的变体，分母是平方，没有 <span class="m">1+g</span> 的结构：</p>
+  <table>
+    <tr><th style="width:40%">题目</th><th>关键对象与它的导数</th></tr>
+    <tr><td><span class="m">∫(1−ln x)/(x−ln x)<sup>2</sup>dx</span></td><td><span class="m">g = x/(x−ln x)</span>，<span class="m">g′ = (1−ln x)/(x−ln x)<sup>2</sup></span></td></tr>
+    <tr><td><span class="m">∫e<sup>x</sup>(x−1)/(x−e<sup>x</sup>)<sup>2</sup>dx</span></td><td><span class="m">g = x/(x−e<sup>x</sup>)</span>，<span class="m">g′ = e<sup>x</sup>(x−1)/(x−e<sup>x</sup>)<sup>2</sup></span></td></tr>
+    <tr><td><span class="m">∫(x + sin x cos x)/(cos x − x sin x)<sup>2</sup>dx</span></td><td><span class="m">g = cos x/(cos x − x sin x)</span>，<span class="m">g′</span> 即被积式</td></tr>
+  </table>
+  <p>三道题的<strong>统一动作</strong>：先看分母 <span class="m">D</span>，再猜 <span class="m">g</span> = 分子中"某个简单因子" / <span class="m">D</span>，用商的求导公式反推，验证一次即得。第三道题的 <span class="m">g</span> = cos <span class="m">x</span>/(cos <span class="m">x</span> − <span class="m">x</span> sin <span class="m">x</span>) 中"某个简单因子"取 cos <span class="m">x</span>，是三道题里最容易猜错的一个——但验证只需一行，猜错就换一个再试。</p>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>只盯着分母做裂项，不去对"复杂部分"求导。这是本讲全部题目失分的主因，也是讲义把这一套单独列为一个考法的原因。</li>
+    <li>求导后看到分子差一个 <span class="m">e<sup>f(x)</sup></span> 就以为方向错了。正确的反应是<strong>同乘这个因子</strong>，而不是换思路。</li>
+    <li>忘记最后两步的答案形式：<span class="m">g′/[g(1+g)]</span> 积出来是 <span class="m">ln|g/(1+g)|</span>（对数内是比，不是差）；<span class="m">g′</span> 积出来才是 <span class="m">g</span> 本身。</li>
+    <li>把"抵消"与"降阶"混同。区分办法：分母是平方、分子是导数 → 直接得 <span class="m">g</span>；分母含 <span class="m">(1+g)</span> 结构 → 得对数比。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">八</span>讲 7　三角有理函数的积分（考法六）</h2>
+
+  <p>所谓三角有理函数，通俗理解就是"三角函数经过有限次加减乘除运算得到的函数"。理论上一律可用万能代换，但万能不等于最快。这一讲的结构是：<strong>先记万能代换作为保底，再记五条比它快的特殊通道。</strong></p>
+
+  <h3>保底通道：万能代换 <span class="m">t</span> = tan(<span class="m">x</span>/2)</h3>
+  <div class="key">
+    <span class="t">核心公式（四个一起记）</span>
+    <div class="disp">t = tan(x/2)　⟹　x = 2arctan t，dx = 2dt/(1+t<sup>2</sup>)</div>
+    <div class="disp">sin x = 2t/(1+t<sup>2</sup>)，　cos x = (1−t<sup>2</sup>)/(1+t<sup>2</sup>)，　tan x = 2t/(1−t<sup>2</sup>)</div>
+  </div>
+  <p>三个三角式的推导骨架是同一个动作：<strong>把分母的 1 换成 sin²+cos²，然后上下同除凑 tan</strong>。以 sin 为例：</p>
+  <div class="disp">sin x = 2sin(x/2)cos(x/2) / (sin<sup>2</sup>(x/2)+cos<sup>2</sup>(x/2)) = 2tan(x/2)/(tan<sup>2</sup>(x/2)+1) = 2t/(1+t<sup>2</sup>)</div>
+  <p>cos 同理（分子用 <span class="m">cos<sup>2</sup>−sin<sup>2</sup></span>），tan 由前两者相除即得。记住这个推导，就不需要死背 <span class="m">tan x = 2t/(1−t<sup>2</sup>)</span> 这个最易记混的式子。</p>
+  <p><strong>示例：</strong>例题 22 <span class="m">∫(2−sin x)/(2+cos x)dx</span>。讲义未直接展开，但更省的做法是先把分子拆开：</p>
+  <div class="disp">(2−sin x)/(2+cos x) = 2/(2+cos x) − sin x/(2+cos x)</div>
+  <div class="disp">答案 = (4/√3)arctan(tan(x/2)/√3) + ln(2+cos x) + C</div>
+  <p>第二块凑 d(2+cos <span class="m">x</span>) 直接得对数，只有第一块需要运用万能代换（或标准公式）。<strong>动作提炼：分母是 <span class="m">a + cos x</span> 且分子含 sin <span class="m">x</span> 时，先拆出"分子 = 常数 + 分母的导数"这一块，再对剩下的用万能代换。</strong></p>
+  <p>类题：<span class="m">∫1/(1+sin x+cos x)dx</span>。万能代换一路到底：</p>
+  <div class="disp">= ∫2dt/(1+t<sup>2</sup>) · (1+t<sup>2</sup>)/(2+2t) = ∫dt/(1+t) = ln|1+tan(x/2)| + C</div>
+
+  <h3>特殊通道 1：分子 = <span class="m">p</span>·分母 + <span class="m">q</span>·(分母)′</h3>
+  <p>适用于 <span class="m">∫(A sin x + B cos x)/(C sin x + D cos x)dx</span> 形状。原理与例题 22 一样，只是把"常数项"换成"分母的导数"。</p>
+  <p>例题 23：<span class="m">∫5/(3x+√(1−x<sup>2</sup>))dx</span>。<strong>第一步不是套公式，是做三角换元把根号去掉</strong>：令 <span class="m">x</span> = sin <span class="m">t</span>，则 √(1−x<sup>2</sup>) = cos <span class="m">t</span>、d<span class="m">x</span> = cos <span class="m">t</span> d<span class="m">t</span>：</p>
+  <div class="disp">= ∫5cos t/(3sin t + cos t)dt</div>
+  <p>现在才是标准形状。设 <span class="m">5cos t = p(3sin t + cos t) + q(3cos t − sin t)</span>（后一项是分母的导数），比对系数得 <span class="m">p</span> = 5/4、<span class="m">q</span> = 5/12：</p>
+  <div class="disp">= (5/4)t + (5/12)ln|3sin t + cos t| + C，最后回代 t = arcsin x</div>
+  <p><strong>这题的位置容易让人误判：</strong>它被讲义放在"三角有理函数"一节，但题面里没有三角函数——关键是先换元造出三角函数结构。</p>
+
+  <h3>特殊通道 2：积化和差一步秒杀</h3>
+  <p>形如 <span class="m">∫sin ax·sin bx dx</span>（<span class="m">a</span> ≠ <span class="m">b</span>）或 sin·cos 混合，直接用积化和差，不要分两次分部。</p>
+  <p>例题 24：<span class="m">∫sin 3x·cos 4x dx</span>。</p>
+  <div class="disp">sin 3x cos 4x = (1/2)[sin 7x − sin x]　⟹　答案 = −(1/14)cos 7x + (1/2)cos x + C</div>
+  <div class="warn"><strong>判据的边界：</strong>频率相同时（如 <span class="m">∫sin<sup>2</sup>x dx</span>）积化和差会得到 <span class="m">cos 0 = 1</span> 的项，转化成降幂公式，仍然有效；但频率不同时若去用降幂公式统一角度（特殊通道 6），反而会把题做长。</div>
+
+  <h3>对称性三判据：三条最值钱的通道</h3>
+  <p>这三条合起来就是判据 5。检查的对象是 <span class="m">R(sin x, cos x)</span> 在两组符号替换下的变化。</p>
+
+  <h4>通道 3：<span class="m">R(sin, −cos) = −R(sin, cos)</span> → 凑 d(sin x)</h4>
+  <p>例题 25：<span class="m">∫1/((x<sup>2</sup>−3)√(1+x<sup>2</sup>))dx</span>。先做 <span class="m">x</span> = tan <span class="m">t</span> 把根号去掉：</p>
+  <div class="disp">dx = sec<sup>2</sup>t dt，√(1+x<sup>2</sup>) = sec t，x<sup>2</sup>−3 = tan<sup>2</sup>t − 3</div>
+  <div class="disp">被积式 = sec t/(tan<sup>2</sup>t − 3) dt = cos t/(4sin<sup>2</sup>t − 3) dt = du/(4u<sup>2</sup>−3)，u = sin t</div>
+  <div class="disp">答案 = (1/(4√3))ln|(2x − √3√(1+x<sup>2</sup>))/(2x + √3√(1+x<sup>2</sup>))| + C</div>
+  <p>关键一步是 <span class="m">sec t/(tan<sup>2</sup>t−3) = cos t/(sin<sup>2</sup>t−3cos<sup>2</sup>t)</span>——把分母全部换成 sin 表示，分子就只剩一个 cos <span class="m">t</span>，正好凑 d(sin <span class="m">t</span>)。<strong>动作提炼：凑 d(sin x) 之前，先把分母整体改写为"只含 sin x"的形式。</strong></p>
+
+  <h4>通道 4：<span class="m">R(−sin, cos) = −R(sin, cos)</span> → 凑 d(cos x)</h4>
+  <p>例题 26：<span class="m">∫tan<sup>5</sup>x/cos x dx</span>。写成 sin/cos 的纯形式：</p>
+  <div class="disp">tan<sup>5</sup>x/cos x = sin<sup>5</sup>x/cos<sup>6</sup>x</div>
+  <p>分母只含 cos，分子只含 sin 的一次幂（准确说是 <span class="m">sin<sup>5</sup></span>，但 sin 的次数是奇数，可以拆出一个 sin 去凑 <span class="m">−d(cos x)</span>）：</p>
+  <div class="disp">令 u = cos x：−∫(1−u<sup>2</sup>)<sup>2</sup>/u<sup>6</sup>du = (1/5)sec<sup>5</sup>x − (2/3)sec<sup>3</sup>x + sec x + C</div>
+  <p>类题：<span class="m">∫1/(sin x + tan x)dx</span>。这题 sin 的次数是 1（奇），但结构上先约简更省：</p>
+  <div class="disp">1/(sin x + tan x) = cos x/(sin x(1+cos x))</div>
+  <p>此时分子只剩一个 cos <span class="m">x</span>，凑 d(sin <span class="m">x</span>)；也可以直接上万能代换，得 <span class="m">(1/2)ln|tan(x/2)| − (1/4)tan<sup>2</sup>(x/2) + C</span>。<strong>两条都要会，考场上选哪条取决于你当下算得快哪条。</strong></p>
+
+  <h4>通道 5：<span class="m">R(−sin, −cos) = R(sin, cos)</span> → 造 sec²x d x = d(tan x)</h4>
+  <p>例题 27：<span class="m">∫1/(1+cos<sup>2</sup>x)dx</span>。分子分母同除 cos<sup>2</sup><span class="m">x</span>：</p>
+  <div class="disp">= ∫sec<sup>2</sup>x/(sec<sup>2</sup>x + 1) dx = ∫sec<sup>2</sup>x/(tan<sup>2</sup>x + 2) dx = ∫dt/(t<sup>2</sup>+2)，t = tan x</div>
+  <div class="disp">答案 = (1/√2)arctan(tan x/√2) + C</div>
+  <p>类题 1：<span class="m">∫1/(3sin x + 2cos x)<sup>2</sup>dx</span>。同除 cos<sup>2</sup><span class="m">x</span>：</p>
+  <div class="disp">= ∫dt/(3t+2)<sup>2</sup> = −1/(3(3tan x+2)) + C</div>
+  <p>类题 2：<span class="m">∫(ln tan x)/sin 2x dx</span>。用 <span class="m">sin 2x = 2sin x cos x</span>，再同除 cos<sup>2</sup><span class="m">x</span>：</p>
+  <div class="disp">= ∫sec<sup>2</sup>x·(ln tan x)/(2tan x) dx = ∫(ln t)/(2t)dt = (1/4)ln<sup>2</sup>(tan x) + C</div>
+  <p>例题 28：<span class="m">∫sin x cos x/(sin x + cos x)dx</span>。这题有个更干脆的办法：令 <span class="m">t</span> = <span class="m">x</span> − π/4，则分母 <span class="m">sin x + cos x = √2 cos t</span>、分子 <span class="m">sin x cos x = (cos 2t)/2</span>：</p>
+  <div class="disp">= ∫(cos 2t)/(2√2 cos t)dt = (1/√2)∫cos t dt − (1/(2√2))∫sec t dt</div>
+  <div class="disp">答案 = (1/√2)sin(x−π/4) − (1/(2√2))ln|sec(x−π/4)+tan(x−π/4)| + C</div>
+  <p>类题 1：<span class="m">∫1/(sin<sup>6</sup>x + cos<sup>6</sup>x)dx</span>。先用 <span class="m">sin<sup>6</sup>+cos<sup>6</sup> = 1 − 3sin<sup>2</sup>x cos<sup>2</sup>x = 1 − (3/4)sin<sup>2</sup>2x</span> 统一到 <span class="m">2x</span>，再同除 cos<sup>2</sup>造 d(tan)：答案 <span class="m">arctan(2tan 2x) + C</span>。</p>
+  <p>类题 2：<span class="m">∫sin x cos x/(sin<sup>4</sup>x + cos<sup>4</sup>x)dx</span>。同样降幂：<span class="m">sin<sup>4</sup>+cos<sup>4</sup> = 1 − (1/2)sin<sup>2</sup>2x</span>，再令 <span class="m">v</span> = cos 2<span class="m">x</span>，答案 <span class="m">−(1/2)arctan(cos 2x) + C</span>。</p>
+
+  <h3>特殊通道 6：缩分母</h3>
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>分母越复杂，先想办法让它简单。若分母是 <span class="m">1 + cos x</span>，两条路：分子分母乘共轭式 <span class="m">1 − cos x</span>，或用二倍角 <span class="m">1+cos x = 2cos<sup>2</sup>(x/2)</span>。<strong>缩分母是思想，不限于三角。</strong></p>
+  </div>
+  <p>例题 29：<span class="m">∫1/(1+cos x)dx</span>。二倍角路线最短：</p>
+  <div class="disp">1/(1+cos x) = 1/(2cos<sup>2</sup>(x/2))　⟹　答案 = tan(x/2) + C</div>
+  <p>共轭路线给的是 <span class="m">−cot x + csc x + C</span>，两者相差常数。类题 1：<span class="m">∫1/(sin x+cos x)dx = (1/√2)ln|tan((x+π/4)/2)| + C</span>（先把分母合成一个正弦）。类题 2：<span class="m">∫1/(sin x √(1+cos x))dx</span> 走 <span class="m">u</span> = cos <span class="m">x</span> + 再令 <span class="m">v</span> = √(1+u) 两次换元。</p>
+
+  <h3>原文判词</h3>
+  <div class="quote">
+    缩分母的思想，不仅适用于三角有理函数的积分，比如下面这道题也适用。
+    <span class="src">——讲义引出例题 30</span>
+  </div>
+  <p>例题 30：<span class="m">∫dx/(1+√x+√(x+1))</span>。分母里有三个项，其中两项是根式。老办法——<strong>有理化两次</strong>：</p>
+  <div class="disp">1/(1+√x+√(x+1)) = (√x+√(x+1)−1)/(2√x(√x+√(x+1)))　（乘 √x+√(x+1)−1）</div>
+  <div class="disp">= (√x+√(x+1)−1)(√(x+1)−√x)/(2√x)　（再乘 √(x+1)−√x，利用 (√x+√(x+1))(√(x+1)−√x) = 1）</div>
+  <div class="disp">= [1 + √x − √(x+1)]/(2√x) = 1/(2√x) + 1/2 − (1/2)√((x+1)/x)</div>
+  <p>前两块直接积出 <span class="m">√x + x/2</span>；第三块令 <span class="m">v</span> = √((x+1)/x) 化为有理式，最终答案含一个 <span class="m">ln(2x+1+2√(x<sup>2</sup>+x))</span> 型对数。<strong>这道题的教益不是某个技巧，而是"分母复杂就先缩分母"这条思想的迁移能力：从三角迁移到根式，动作完全一样——找共轭并相乘。</strong></p>
+
+  <h3>特殊通道 7：不同角度先统一角度</h3>
+  <p>被积函数里出现不同角度的三角函数时，先用倍角公式把角度统一，再回落到前面的通道上。</p>
+  <p>例题 31（1994）：<span class="m">∫1/(sin 2x + 2sin x)dx</span>。用 <span class="m">sin 2x = 2sin x cos x</span> 统一到 <span class="m">x</span>：</p>
+  <div class="disp">= (1/2)∫dx/(sin x(1+cos x))　⟹　缩分母（1+cos x = 2cos<sup>2</sup>(x/2) 或乘共轭）</div>
+  <div class="disp">答案 = (1/4)ln|tan(x/2)| + (1/8)tan<sup>2</sup>(x/2) + C</div>
+  <p>例题 32：<span class="m">∫(cos 2x − sin 2x)/(sin x + cos x)dx</span>。用 <span class="m">cos 2x = cos<sup>2</sup>x − sin<sup>2</sup>x</span> 先约掉一个因子：</p>
+  <div class="disp">(cos<sup>2</sup>x − sin<sup>2</sup>x)/(sin x + cos x) = cos x − sin x</div>
+  <div class="disp">原式 = ∫[cos x − sin x − 2sin x cos x/(sin x+cos x)]dx</div>
+  <p>剩余部分把 <span class="m">2sin x cos x</span> 写成 <span class="m">(sin x+cos x)<sup>2</sup> − 1</span>，化为 <span class="m">∫(sin x+cos x)dx − ∫dx/(sin x+cos x)</span>，两块都已知。</p>
+  <p>例题 33：<span class="m">∫e<sup>−sin x</sup>·sin 2x / sin<sup>4</sup>(π/4 − x/2) dx</span>。这题综合度高，但只要按判据走就不会乱：</p>
+  <ol>
+    <li><strong>统一角度</strong>：sin 2<span class="m">x</span> = 2sin <span class="m">x</span> cos <span class="m">x</span>；同时 <span class="m">sin<sup>2</sup>(π/4 − x/2) = (1 − sin x)/2</span>，故分母 = <span class="m">(1 − sin x)<sup>2</sup>/4</span>。</li>
+    <li>整体化为 <span class="m">8∫e<sup>−u</sup>u/(1−u)<sup>2</sup>du</span>，<span class="m">u</span> = sin <span class="m">x</span>（同时约掉了 cos <span class="m">x</span> d<span class="m">x</span>）。</li>
+    <li><strong>拆项凑导数</strong>：<span class="m">u/(1−u)<sup>2</sup> = −1/(1−u) + 1/(1−u)<sup>2</sup> = f′ − f</span>，其中 <span class="m">f</span> = 1/(1−u)。</li>
+    <li>用 <span class="m">∫e<sup>−u</sup>(f′−f)du = e<sup>−u</sup>f</span> 收尾。</li>
+  </ol>
+  <div class="disp">答案 = 8e<sup>−sin x</sup>/(1 − sin x) + C</div>
+  <div class="quote">
+    本题十分综合，但相信你们已经成长了，现在的你们做这道题应该不成问题。
+    <span class="src">——讲义例题 33 注</span>
+  </div>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>一上来就用万能代换，把一个两行能解决的题做成四次有理式。</li>
+    <li>对称性判据只检查了 sin 或只检查了 cos，没把三组都查一遍。三组是"检查清单"，漏一组就可能白算一大段。</li>
+    <li>通道 3/4 里忘了先把分母整体改写成"只含 sin"或"只含 cos"的形式，导致凑不出 d(sin x)/d(cos x)。</li>
+    <li>把"缩分母"局限在三角里。例题 30 说明它是一个通用的分母化简动作。</li>
+    <li>通道 5（<span class="m">R(−sin,−cos) = R</span>）与"万能代换"混同：前者得到 <span class="m">d(tan x)</span> 的有理式，后者得到 <span class="m">dt</span> 的有理式，速度差一个量级。</li>
+  </ul>
+</section>
+<section>
+  <h2><span class="n">九</span>讲 8　隐函数的不定积分（考法七·选学）</h2>
+
+  <div class="key">
+    <span class="t">核心判据</span>
+    <p>曲线由方程给出时，<strong>不要试图解出 <span class="m">y</span> = <span class="m">y</span>(<span class="m">x</span>)，而是换一个参数 —— 直接把积分里反复出现的那一坨设为新变量</strong>，让方程把它变成有理式。</p>
+  </div>
+
+  <h3>示例推演：例题 34</h3>
+  <p>设 <span class="m">x</span> = <span class="m">x</span>(<span class="m">y</span>) 由方程 <span class="m">x(y−x)<sup>2</sup> = y</span> 确定，求 <span class="m">∫dx/(y−x)</span>。</p>
+  <p>积分里反复出现 <span class="m">y − x</span>，就令 <span class="m">u</span> = <span class="m">y</span> − <span class="m">x</span>（即 <span class="m">y</span> = <span class="m">x</span> + <span class="m">u</span>）。代回方程：</p>
+  <div class="disp">x u<sup>2</sup> = x + u　⟹　x(u<sup>2</sup> − 1) = u　⟹　x = u/(u<sup>2</sup> − 1)</div>
+  <p>于是原积分化为 <span class="m">u</span> 的有理函数积分（对 <span class="m">x</span> 求导得 d<span class="m">x</span> = −(<span class="m">u<sup>2</sup></span>+1)/(<span class="m">u<sup>2</sup></span>−1)<sup>2</sup> d<span class="m">u</span>）：</p>
+  <div class="disp">∫dx/(y−x) = −∫(u<sup>2</sup>+1)/(u(u<sup>2</sup>−1)<sup>2</sup>) du</div>
+  <p>待定系数裂项（<span class="m">A</span> = 1、<span class="m">B</span> = <span class="m">D</span> = −1/2、<span class="m">C</span> = 1/2、<span class="m">E</span> = −1/2）后逐项积分，再用关系式 <span class="m">u<sup>2</sup> − 1 = u/x</span> 把答案化简回原变量：</p>
+  <div class="disp">答案 = −(1/2)ln|x(y−x)| + x/(y−x) + C</div>
+  <div class="tip"><strong>为什么必须换参：</strong>直接对 <span class="m">x(y−x)<sup>2</sup> = y</span> 隐式求导会得到一个含 <span class="m">y′</span> 的式子，再回代进积分无法化简。而"把 <span class="m">y − x</span> 设为参数"一步就让方程变成显式的有理式。<strong>选参数的判据：选积分中反复出现的那个表达式。</strong></div>
+
+  <h3>常见误区</h3>
+  <ul>
+    <li>强行解出 <span class="m">y</span> = <span class="m">y</span>(<span class="m">x</span>)。本题中 <span class="m">y</span> 满足三次方程，解出来也无法积。</li>
+    <li>设了 <span class="m">u</span> = <span class="m">y</span> − <span class="m">x</span> 之后忘记把 <span class="m">x</span> 也换成 <span class="m">u</span> 的表达式（本题中 <span class="m">x</span> = <span class="m">u</span>/(<span class="m">u<sup>2</sup></span>−1) 由方程给出，不是恒等式）。</li>
+    <li>最后不回代，或回代时漏掉用 <span class="m">u<sup>2</sup>−1 = u/x</span> 化简这一步，答案里留着 <span class="m">u</span>。</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="n">十</span>一页速查</h2>
+
+  <table>
+    <tr><th style="width:30%">判据 / 通道</th><th style="width:34%">识别信号</th><th>落地动作</th></tr>
+    <tr><td><strong>分段积分</strong></td><td>被积函数分段给出</td><td>分段求原函数 → 用连续性把常数并成一个</td></tr>
+    <tr><td><strong>改造分子</strong></td><td>分母含 <span class="m">x<sup>n</sup>(1+x<sup>2</sup>)</span></td><td>分子写 <span class="m">(1+x<sup>2</sup>) − x<sup>2</sup></span>，反复减一层</td></tr>
+    <tr><td><strong>因式组合</strong></td><td>分母是 <span class="m">1+x<sup>6</sup></span> 等可分解式</td><td>分子改写成各因式的组合，拆成两个已知块</td></tr>
+    <tr><td><strong>待定系数</strong></td><td>前三条都看不出结构</td><td>设形 → 用根代入秒定重因式系数 → 比对求解 → 配方收尾</td></tr>
+    <tr><td><strong>倒代换</strong></td><td>分母次数比分子高 4 次以上</td><td><span class="m">x</span> = 1/<span class="m">t</span>，得假分式，多项式除法后逐项积</td></tr>
+    <tr><td><strong>配对法</strong></td><td><span class="m">1 + kx<sup>2</sup> + x<sup>4</sup></span></td><td>分子配 <span class="m">1 ± x<sup>2</sup></span> → 同除 <span class="m">x<sup>2</sup></span> → 令 <span class="m">t</span> = <span class="m">x</span> ∓ 1/<span class="m">x</span></td></tr>
+    <tr><td><strong>去根号换元</strong></td><td>根号内是一次式或一次式之比</td><td>令整个根号 = <span class="m">t</span>，反解 <span class="m">x</span></td></tr>
+    <tr><td><strong>比值换元</strong></td><td>根号内是两个一次因式的同分母次幂</td><td>令两者之比开该次方 = <span class="m">t</span></td></tr>
+    <tr><td><strong>d 后配常数</strong></td><td>分部后想消掉某个因子</td><td>取 <span class="m">V</span> + <span class="m">a</span> 而非 <span class="m">V</span>（如配 <span class="m">(1+x<sup>2</sup>)/2</span>）</td></tr>
+    <tr><td><strong>换元后直接分部</strong></td><td>换元后得"多项式 × 反三角/对数"</td><td>不回代，在 <span class="m">t</span> 世界分部</td></tr>
+    <tr><td><strong>分部降分母阶</strong></td><td>分母是平方，分子含 <span class="m">e<sup>x</sup></span></td><td>分母凑进 d → 分部 → 让 <span class="m">u′</span> 约掉降阶后的分母</td></tr>
+    <tr><td><strong>分部造抵消</strong></td><td>含 <span class="m">e<sup>x</sup></span> 乘有理式</td><td>调成 <span class="m">e<sup>x</sup>[f+f′]</span> = <span class="m">[e<sup>x</sup>f]′</span>；无 <span class="m">e<sup>x</sup></span> 时拆两块真分部</td></tr>
+    <tr><td><strong>求导试探</strong></td><td>分子像某个东西的导数</td><td>对复杂部分求导 → 比对分子 → 需要时同乘 <span class="m">e<sup>f(x)</sup></span></td></tr>
+    <tr><td><strong>积化和差</strong></td><td><span class="m">sin ax·cos bx</span>（<span class="m">a</span> ≠ <span class="m">b</span>）</td><td>一步和差化积，直接积</td></tr>
+    <tr><td><strong>对称性 1</strong></td><td><span class="m">R(sin,−cos) = −R</span></td><td>分母全换 sin，凑 d(sin <span class="m">x</span>)</td></tr>
+    <tr><td><strong>对称性 2</strong></td><td><span class="m">R(−sin,cos) = −R</span></td><td>分母全换 cos，凑 d(cos <span class="m">x</span>)</td></tr>
+    <tr><td><strong>对称性 3</strong></td><td><span class="m">R(−sin,−cos) = R</span></td><td>同除 cos²<span class="m">x</span> 造 sec²<span class="m">x</span> d<span class="m">x</span> = d(tan <span class="m">x</span>)</td></tr>
+    <tr><td><strong>缩分母</strong></td><td>分母含 <span class="m">1 + cos x</span> 或含多个根式</td><td>乘共轭 / 用二倍角；根式情形有理化两次</td></tr>
+    <tr><td><strong>统一角度</strong></td><td>被积式里角度不一致</td><td>倍角公式降到同一角，再回落前面通道</td></tr>
+    <tr><td><strong>万能代换</strong></td><td>对称性三判据全不满足</td><td><span class="m">t</span> = tan(<span class="m">x</span>/2)，化为有理函数积分</td></tr>
+    <tr><td><strong>隐函数换参</strong></td><td>曲线由 <span class="m">F(x,y)</span> = 0 给出</td><td>把积分里反复出现的组合设为参数 <span class="m">u</span>，用方程解出 <span class="m">x</span>(<span class="m">u</span>)</td></tr>
+  </table>
+</section>
+<section>
+  <h2><span class="n">十一</span>易混对照表</h2>
+
+  <p>下面六组是这份讲义里最容易被揉成一团的概念。左边是错误的理解或做法，右边是判据给出的正确动作。</p>
+
+  <table>
+    <tr><th style="width:50%">容易混淆的左边</th><th>判据给出的右边</th></tr>
+    <tr>
+      <td>分段积分：要让原函数在分界点<strong>可导</strong>，所以去验证 <span class="m">f</span> 是否连续。</td>
+      <td>分段积分：只要求原函数<strong>连续</strong>。原函数可导与否由 <span class="m">f</span> 在分界点是否连续自动决定，不需要额外检查。</td>
+    </tr>
+    <tr>
+      <td>有理函数：待定系数法是"笨办法"，能不用就不用。</td>
+      <td>待定系数法是<strong>兜底办法</strong>，一定能成功。正确顺序是"先扫结构，看不出再上待定系数"，而不是"绝不用"。</td>
+    </tr>
+    <tr>
+      <td>四次分母 <span class="m">1+x<sup>4</sup></span>：直接因式分解成两个二次因式最标准。</td>
+      <td>四次分母 <span class="m">1+kx<sup>2</sup>+x<sup>4</sup></span>：走配对法（配 <span class="m">1±x<sup>2</sup></span> + 同除 <span class="m">x<sup>2</sup></span>）。因式分解可行但计算量大一个量级。</td>
+    </tr>
+    <tr>
+      <td>"分部 + 抵消"只适用于被积函数含 <span class="m">e<sup>x</sup></span> 的题。</td>
+      <td>含 <span class="m">e<sup>x</sup></span> 时可用母公式 <span class="m">[e<sup>x</sup>f]′</span>；含 <span class="m">e<sup>f(x)</sup></span> 或完全不含指数函数时同样可抵消，只是<strong>必须真的分部</strong>。</td>
+    </tr>
+    <tr>
+      <td>三角有理函数：不会就想万能代换。</td>
+      <td>万能代换是<strong>保底</strong>。先查对称性三判据（凑 d(sin)、凑 d(cos)、造 d(tan)），全不满足才上万能代换。</td>
+    </tr>
+    <tr>
+      <td>换元与分部是两件独立的事，先换元、换完再决定要不要分部。</td>
+      <td>两者可以<strong>一次完成</strong>：d<span class="m">x</span> 换出来的是现成导数时，直接把它当分部的 <span class="m">v</span>（例题 13）。</td>
+    </tr>
+  </table>
+
+  <div class="tip"><strong>使用方式：</strong>把这六组当作"考场上的六次刹车"。每当你的手要往左边那一栏伸过去时，停半秒，读一遍右边的动作。</div>
+</section>
+
+<section>
+  <h2><span class="n">十二</span>检验理解</h2>
+  <p>二十道题，每题只有一个选项与判据一致。点选即判定并显示解析；作答记录保存在本机浏览器中。</p>
+  <ul class="quiz">
+  <li class="q" data-ans="B">
+    <p class="qt">1. 分段函数求不定积分时，两段各自写完任意常数后还要做一步"拼接"。这一步依据的是原函数在哪一点上的什么性质？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 在分界点可导</button>
+      <button class="opt" data-k="B">B. 在分界点连续</button>
+      <button class="opt" data-k="C">C. 在两段上分别严格单调</button>
+      <button class="opt" data-k="D">D. 在分界点取到极值</button>
+    </div>
+    <p class="exp">拼接只需要原函数在分界点连续这一条。原函数是否可导，由被积函数在该点是否连续自动决定——那是结论式的性质，不需要也不应该拿来做检查条件。</p>
+  </li>
+
+  <li class="q" data-ans="D">
+    <p class="qt">2. 处理 <span class="m">∫1/(x<sup>6</sup>(1+x<sup>2</sup>))dx</span> 的"改造分子"通道时，反复使用的是哪条恒等式？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">1 = x<sup>2</sup> + (1 − x<sup>2</sup>)</span></button>
+      <button class="opt" data-k="B">B. <span class="m">1 + x<sup>6</sup> = (1+x<sup>2</sup>)(1 − x<sup>2</sup> + x<sup>4</sup>)</span></button>
+      <button class="opt" data-k="C">C. <span class="m">1 + x<sup>4</sup> = (1+x<sup>2</sup>)<sup>2</sup> − 2x<sup>2</sup></span></button>
+      <button class="opt" data-k="D">D. <span class="m">1 = (1+x<sup>2</sup>) − x<sup>2</sup></span></button>
+    </div>
+    <p class="exp">把 1 写成 (1+x²) − x²，每用一次就把分母的 x 次数削掉 2；连用三次后只剩幂函数与 1/(1+x²) 两类基本积分。"1 + x⁶ 拆成两个二次因式之积"和"1 + x⁴ = (1+x²)² − 2x²"是另外两族题用的恒等式。</p>
+  </li>
+
+  <li class="q" data-ans="A">
+    <p class="qt">3. 计算 <span class="m">∫(1+x<sup>2</sup>)/(1+x<sup>4</sup>)dx</span>，分子分母同除 <span class="m">x<sup>2</sup></span> 后，分母变成什么形式？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">(x − 1/x)<sup>2</sup> + 2</span></button>
+      <button class="opt" data-k="B">B. <span class="m">(x + 1/x)<sup>2</sup> − 2</span></button>
+      <button class="opt" data-k="C">C. <span class="m">(x − 1/x)<sup>2</sup> − 2</span></button>
+      <button class="opt" data-k="D">D. <span class="m">(x + 1/x)<sup>2</sup> + 2</span></button>
+    </div>
+    <p class="exp">同除 x² 得 x² + 1/x²，而 x² + 1/x² = (x − 1/x)² + 2，同时分子变成 1 + 1/x²，恰好是 d(x − 1/x)。"包含 (x+1/x)² 的两种写法"属于分子取 1 − x² 的那一类题。</p>
+  </li>
+
+  <li class="q" data-ans="C">
+    <p class="qt">4. 若把 <span class="m">1+x<sup>4</sup></span> 分解成 <span class="m">(1+x<sup>2</sup>+√2 x)(1+x<sup>2</sup>−√2 x)</span> 再走待定系数，讲义对这条路的评价是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 这是唯一正确的解法，配对法只对特例有效</button>
+      <button class="opt" data-k="B">B. 分解本身是错的，两个因式相乘得不到 1 + x⁴</button>
+      <button class="opt" data-k="C">C. 分解正确，但计算量明显更大</button>
+      <button class="opt" data-k="D">D. 比配对法更快，应当优先使用</button>
+    </div>
+    <p class="exp">因式分解在代数上完全正确（(1+x²)² − 2x² = 1 + 2x² + x⁴ − 2x² = 1 + x⁴），问题在于之后要解四元一次方程组、还要对两个二次因式分别收尾。配对法两步就能出结果，所以优先配对法。</p>
+  </li>
+
+  <li class="q" data-ans="D">
+    <p class="qt">5. 用"令整个根号等于 <span class="m">t</span>"去根号、并且已经算完关于 <span class="m">t</span> 的积分之后，做不定积分时还有哪一步绝对不能省？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 对结果再求一次导验证</button>
+      <button class="opt" data-k="B">B. 补写换元的可逆区间</button>
+      <button class="opt" data-k="C">C. 检查 <span class="m">t</span> 的取值范围是否单调</button>
+      <button class="opt" data-k="D">D. 把结果中的 <span class="m">t</span> 换回原变量 <span class="m">x</span></button>
+    </div>
+    <p class="exp">不定积分的结果必须用原变量表示，回代是最后一步的固定动作。给结果求导验证属于自检，考场上不写；换元的单调性与可逆区间在不定积分里不影响答案形式（定积分才需要连积分限一起换）。</p>
+  </li>
+
+  <li class="q" data-ans="B">
+    <p class="qt">6. 对 <span class="m">∫1/∛((x+1)<sup>2</sup>(x−1)<sup>4</sup>)dx</span>，讲义示范的换元是令哪个表达式等于 <span class="m">t</span>？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">∛(x−1)</span></button>
+      <button class="opt" data-k="B">B. <span class="m">∛((x−1)/(x+1))</span></button>
+      <button class="opt" data-k="C">C. <span class="m">∛(x<sup>2</sup>−1)</span></button>
+      <button class="opt" data-k="D">D. <span class="m">x+1</span></button>
+    </div>
+    <p class="exp">两个一次因式的幂指数分母相同（都是 3），令它们的比值开三次方，反解出 x 之后所有分式因式连根号一起精确相消，只剩 (3/2)t⁻² dt。"∛(x−1) 与 ∛(x²−1)"都只能带走一部分根号，剩下一部分仍然留在式子里。</p>
+  </li>
+
+  <li class="q" data-ans="A">
+    <p class="qt">7. 计算定积分 <span class="m">∫<sub>0</sub><sup>1</sup> arcsin√x / √(x(1−x)) dx</span>，最有效的换元是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">x = sin<sup>2</sup>t</span></button>
+      <button class="opt" data-k="B">B. 令整个根号 <span class="m">√(x(1−x)) = t</span></button>
+      <button class="opt" data-k="C">C. <span class="m">x = 1/t</span></button>
+      <button class="opt" data-k="D">D. <span class="m">x = 1 − t</span></button>
+    </div>
+    <p class="exp">取 x = sin²t 后，√(x(1−x)) 正好等于 sin t·cos t，而 dx 里的 2sin t·cos t 把它完全约掉，整个被积式塌缩成一个 2t，积分值直接得 π²/4。这里的钥匙不是根号，是 arcsin：它的反函数能把两个根式一起带走。</p>
+  </li>
+
+  <li class="q" data-ans="C">
+    <p class="qt">8. <span class="m">∫x·ln(1+x<sup>2</sup>)·arctan x dx</span> 做分部时，d 后面配的是 <span class="m">(1+x<sup>2</sup>)/2</span> 而不是 <span class="m">x<sup>2</sup>/2</span>。这样选的目的是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 保证分部后的 <span class="m">v</span> 非负</button>
+      <button class="opt" data-k="B">B. 避免出现 arctan 项</button>
+      <button class="opt" data-k="C">C. 让 <span class="m">(1+x<sup>2</sup>)</span> 与下一步出现的分母精确相消</button>
+      <button class="opt" data-k="D">D. 使原函数在 <span class="m">x</span> = 0 处取值为零</button>
+    </div>
+    <p class="exp">分部后的待积项里含 ln(1+x²) 的导数为 2x/(1+x²)，而配出的 v 恰好带一个 (1+x²) 因子，两者相乘正好消成 2x，于是只剩一个已知的 ∫x arctan x dx。配 x²/2 就不会发生这种相消，后面要多算一大段。</p>
+  </li>
+
+  <li class="q" data-ans="B">
+    <p class="qt">9. 对 <span class="m">∫e<sup>2x</sup> arctan√(e<sup>x</sup>−1) dx</span> 令 <span class="m">t</span> = √(e<sup>x</sup>−1) 之后，被积式变成什么？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">t(1+t<sup>2</sup>)arctan t dt</span></button>
+      <button class="opt" data-k="B">B. <span class="m">2t(1+t<sup>2</sup>)arctan t dt</span></button>
+      <button class="opt" data-k="C">C. <span class="m">2t<sup>2</sup>arctan t/(1+t<sup>2</sup>) dt</span></button>
+      <button class="opt" data-k="D">D. <span class="m">(1+t<sup>2</sup>)<sup>2</sup>arctan t dt</span></button>
+    </div>
+    <p class="exp">eˣ = 1 + t² 给出 e²ˣ = (1+t²)²，dx = 2t/(1+t²) dt，两者相乘时约掉一个 (1+t²)，剩下 2t(1+t²)arctan t。这个形状正是"多项式 × 反三角"，可以直接分部。</p>
+  </li>
+
+  <li class="q" data-ans="D">
+    <p class="qt">10. "分部 + 抵消"战术的母公式是哪一个？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">∫e<sup>x</sup>f′(x)dx = e<sup>x</sup>f(x) + C</span></button>
+      <button class="opt" data-k="B">B. <span class="m">∫e<sup>x</sup>f(x)dx = e<sup>x</sup>f(x) − e<sup>x</sup>f′(x) + C</span></button>
+      <button class="opt" data-k="C">C. <span class="m">∫f(x)f′(x)dx = (1/2)f<sup>2</sup>(x) + C</span></button>
+      <button class="opt" data-k="D">D. <span class="m">∫e<sup>x</sup>[f(x)+f′(x)]dx = e<sup>x</sup>f(x) + C</span></button>
+    </div>
+    <p class="exp">母公式是 ∫eˣ[f + f′]dx = eˣf + C，它的推导本身就是"拆两块、一块分部"：∫eˣf′dx 分部后得到 eˣf − ∫eˣf dx，与原式中的 ∫eˣf dx 相消，只剩边界项。另外两个选项分别漏掉了 f 项、或把 eˣ 换成了 f 本身。</p>
+  </li>
+  <li class="q" data-ans="C">
+    <p class="qt">11. 计算 <span class="m">∫e<sup>sin x</sup>(x cos<sup>3</sup>x − sin x)/cos<sup>2</sup>x dx</span> 时，式子里的 <span class="m">∫e<sup>sin x</sup>dx</span> 最后被消掉，靠的是什么动作？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 直接用母公式 <span class="m">[e<sup>x</sup>f(x)]′</span></button>
+      <button class="opt" data-k="B">B. 把 <span class="m">e<sup>sin x</sup></span> 换成 <span class="m">e<sup>x</sup></span> 后再用母公式</button>
+      <button class="opt" data-k="C">C. 把被积式拆成两块，对每一块各做一次真分部</button>
+      <button class="opt" data-k="D">D. 先对指数做泰勒展开再逐项积分</button>
+    </div>
+    <p class="exp">这里指数上是 sin x 而不是 x，母公式失效，必须真的分部：第一块取 dv = cos x·e^{sin x}dx，分部后冒出 −∫e^{sin x}dx；第二块注意到 sin x/cos²x 就是 (sec x)′，分部后冒出 +∫e^{sin x}dx，两者相互抵消。最终答案里没有 e^{sin x} 的积分项。</p>
+  </li>
+
+  <li class="q" data-ans="A">
+    <p class="qt">12. 求 <span class="m">∫(x+1)/(x(1+xe<sup>x</sup>))dx</span> 时，发现 <span class="m">(xe<sup>x</sup>)′ = (x+1)e<sup>x</sup></span>，与分子只差一个 <span class="m">e<sup>x</sup></span>。接着该做什么？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 分子分母同乘 <span class="m">e<sup>x</sup></span></button>
+      <button class="opt" data-k="B">B. 换元 <span class="m">t</span> = <span class="m">x</span> + 1</button>
+      <button class="opt" data-k="C">C. 用分部积分把 <span class="m">xe<sup>x</sup></span> 降阶</button>
+      <button class="opt" data-k="D">D. 放弃这条思路，改走待定系数裂项</button>
+    </div>
+    <p class="exp">分子分母同乘 eˣ 后，被积式变成 (xeˣ)′ / [xeˣ(1 + xeˣ)]，正好是 g′/[g(1+g)] 的形状，积分立刻得到 ln|xeˣ/(1+xeˣ)| + C。这个"同乘 e^{f(x)}"的动作，正是出题人用来把 g′/[g(1+g)] 伪装成普通有理式的逆操作。</p>
+  </li>
+
+  <li class="q" data-ans="B">
+    <p class="qt">13. 对 <span class="m">∫ln x / √(1+[x(ln x − 1)]<sup>2</sup>) dx</span>，把 <span class="m">g(x) = x(ln x − 1)</span> 求一次导，结果是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">ln x − 1</span></button>
+      <button class="opt" data-k="B">B. <span class="m">ln x</span></button>
+      <button class="opt" data-k="C">C. <span class="m">ln x + 1</span></button>
+      <button class="opt" data-k="D">D. <span class="m">1/x</span></button>
+    </div>
+    <p class="exp">g = x ln x − x，求导时 (x ln x)′ = ln x + 1 与 x 的导数 1 精确相消，只剩 ln x——恰好是被积式的分子。于是整个积分就是 ∫g′/√(1+g²)，属于基本积分表里的反双曲正弦型。</p>
+  </li>
+
+  <li class="q" data-ans="D">
+    <p class="qt">14. 判断出 <span class="m">R(sin x, −cos x) = −R(sin x, cos x)</span> 之后，接下来的动作是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 同除 cos²<span class="m">x</span>，造出 d(tan <span class="m">x</span>)</button>
+      <button class="opt" data-k="B">B. 直接上万能代换 <span class="m">t</span> = tan(<span class="m">x</span>/2)</button>
+      <button class="opt" data-k="C">C. 用积化和差把角度降到一次</button>
+      <button class="opt" data-k="D">D. 把式子整体改写为只含 sin <span class="m">x</span> 的形式，再凑 d(sin <span class="m">x</span>)</button>
+    </div>
+    <p class="exp">"R 关于 cos 是奇的"意味着式子里 cos 只以奇次幂出现，因此可以整体改写为只含 sin x（把 cos² 换成 1 − sin²，留下一个 cos 去配合 dx 凑成 d(sin x)）。"同除 cos² 造 d(tan x)"属于三条判据里的第三条，对应的是"关于 sin 和 cos 同时为偶"的情形。</p>
+  </li>
+
+  <li class="q" data-ans="C">
+    <p class="qt">15. 若 <span class="m">R(−sin x, −cos x) = R(sin x, cos x)</span>，最省的动作是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. 凑 d(sin <span class="m">x</span>)</button>
+      <button class="opt" data-k="B">B. 凑 d(cos <span class="m">x</span>)</button>
+      <button class="opt" data-k="C">C. 分子分母同除 cos²<span class="m">x</span>，造出 sec²<span class="m">x</span> d<span class="m">x</span> = d(tan <span class="m">x</span>)</button>
+      <button class="opt" data-k="D">D. 只能走万能代换</button>
+    </div>
+    <p class="exp">同时关于 sin 和 cos 是偶的，说明 sin、cos 的总次数为偶，同除 cos² 后式子变成只含 tan x，剩下的 sec²x dx 正是 d(tan x)。例：∫1/(1+cos²x)dx 同除 cos²x 后化为 ∫dt/(t²+2) = (1/√2)arctan(t/√2) + C。</p>
+  </li>
+
+  <li class="q" data-ans="A">
+    <p class="qt">16. 万能代换 <span class="m">t</span> = tan(<span class="m">x</span>/2) 之下，<span class="m">tan x</span> 等于？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">2t/(1 − t<sup>2</sup>)</span></button>
+      <button class="opt" data-k="B">B. <span class="m">2t/(1 + t<sup>2</sup>)</span></button>
+      <button class="opt" data-k="C">C. <span class="m">(1 − t<sup>2</sup>)/(1 + t<sup>2</sup>)</span></button>
+      <button class="opt" data-k="D">D. <span class="m">t/(1 − t<sup>2</sup>)</span></button>
+    </div>
+    <p class="exp">把 sin x 与 cos x 的表达式相除：tan x = [2t/(1+t²)] ÷ [(1−t²)/(1+t²)] = 2t/(1−t²)。分母是 1 减 t² 而不是 1 加 t²，这是最容易记混的一处。选项里 2t/(1+t²) 是 sin x，(1−t²)/(1+t²) 是 cos x。</p>
+  </li>
+
+  <li class="q" data-ans="B">
+    <p class="qt">17. <span class="m">∫sin 3x·cos 4x dx</span> 用积化和差一步化解，正确的拆分是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">(1/2)(sin 7x + sin x)</span></button>
+      <button class="opt" data-k="B">B. <span class="m">(1/2)(sin 7x − sin x)</span></button>
+      <button class="opt" data-k="C">C. <span class="m">(1/2)(cos 7x − cos x)</span></button>
+      <button class="opt" data-k="D">D. <span class="m">(1/2)(cos 7x + cos x)</span></button>
+    </div>
+    <p class="exp">sin A cos B = (1/2)[sin(A+B) + sin(A−B)]，取 A = 3x、B = 4x 得 (1/2)[sin 7x + sin(−x)] = (1/2)(sin 7x − sin x)。积分结果是 −(1/14)cos 7x + (1/2)cos x + C。</p>
+  </li>
+
+  <li class="q" data-ans="D">
+    <p class="qt">18. 处理 <span class="m">∫dx/(1+√x+√(x+1))</span> 时，第二次有理化乘的因子是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">√x − √(x+1)</span></button>
+      <button class="opt" data-k="B">B. <span class="m">1 − √x − √(x+1)</span></button>
+      <button class="opt" data-k="C">C. <span class="m">√x + √(x+1) + 1</span></button>
+      <button class="opt" data-k="D">D. <span class="m">√(x+1) − √x</span></button>
+    </div>
+    <p class="exp">第一次乘 √x + √(x+1) − 1 之后，分母变成 2√x(√x + √(x+1))；再乘 √(x+1) − √x，利用 (√x+√(x+1))(√(x+1)−√x) = 1，分母只剩 2√x，被积式化为 1/(2√x) + 1/2 − (1/2)√((x+1)/x) 三块。这就是"缩分母"从三角迁移到根式的样子。</p>
+  </li>
+
+  <li class="q" data-ans="A">
+    <p class="qt">19. <span class="m">∫xe<sup>x</sup>/(1+x)<sup>2</sup>dx</span> 走"分部降分母阶"这条路时，取 <span class="m">u = xe<sup>x</sup></span>、d<span class="m">v</span> = d<span class="m">x</span>/(1+x)² 的理由是？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">(xe<sup>x</sup>)′ = (x+1)e<sup>x</sup></span> 中的因子 <span class="m">(x+1)</span> 能约掉降阶后剩下的分母</button>
+      <button class="opt" data-k="B">B. <span class="m">xe<sup>x</sup></span> 是全式中次数最高的部分</button>
+      <button class="opt" data-k="C">C. 反三角函数与对数函数必须优先充当 <span class="m">u</span></button>
+      <button class="opt" data-k="D">D. 这样取能保证分出来的 <span class="m">v</span> 恒为正</button>
+    </div>
+    <p class="exp">降阶后剩下的分母是 1/(1+x)，而 (xeˣ)′ = (x+1)eˣ 带一个 (x+1)，两者相乘直接消成 eˣ，立刻可积。选 u 的判据不是"谁次数高"，也不是"反三角优先"那条口诀，而是"谁的导数能约掉降阶后剩下的分母"。</p>
+  </li>
+
+  <li class="q" data-ans="C">
+    <p class="qt">20. 隐函数题：由 <span class="m">x(y−x)<sup>2</sup> = y</span> 求 <span class="m">∫dx/(y−x)</span>。第一步应该设哪个量为参数？</p>
+    <div class="opts">
+      <button class="opt" data-k="A">A. <span class="m">u = 1/y</span></button>
+      <button class="opt" data-k="B">B. <span class="m">u = x<sup>2</sup></span></button>
+      <button class="opt" data-k="C">C. <span class="m">u = y − x</span></button>
+      <button class="opt" data-k="D">D. 先把 <span class="m">y</span> 解成 <span class="m">x</span> 的显函数再积分</button>
+    </div>
+    <p class="exp">选参数的判据是"积分里反复出现的那个组合"，这里就是 y − x。令 u = y − x 后代回方程得 x(u² − 1) = u，即 x = u/(u²−1)，方程一步变成显式有理式，再走待定系数裂项即可。强行解出 y = y(x) 会撞上三次方程，解出来也无法积。</p>
+  </li>
+</ul>
+
+<div class="qbar">
+  <button class="btn" id="resetBtn">清除作答记录</button>
+  <span class="stat" id="stat">尚未作答</span>
+</div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var KEY = "wb_calc_int_quiz_v1";
+  var store = {};
+  var canStore = true;
+
+  function load(){
+    var raw = null;
+    try{ raw = localStorage.getItem(KEY); }
+    catch(e){ canStore = false; return {}; }
+    if(!raw) return {};
+    var obj = null;
+    try{ obj = JSON.parse(raw); }
+    catch(e){ return {}; }
+    if(!obj || typeof obj !== "object") return {};
+    return obj;
+  }
+  function save(){
+    if(!canStore) return;
+    try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){ canStore = false; }
+  }
+
+  var root = document.querySelector(".quiz");
+  if(!root) return;
+  var items = root.querySelectorAll(".q");
+  var stat = document.getElementById("stat");
+
+  function refreshStat(){
+    if(!stat) return;
+    var done = 0, right = 0;
+    for(var i=0;i<items.length;i++){
+      var rec = store[i];
+      if(rec){
+        done++;
+        if(rec.ok) right++;
+      }
+    }
+    stat.textContent = done === 0 ? "尚未作答" : ("已作答 " + done + " / " + items.length + " 题，答对 " + right + " 题");
+  }
+
+  function paint(q, rec){
+    var ans = q.getAttribute("data-ans");
+    var btns = q.querySelectorAll(".opt");
+    for(var i=0;i<btns.length;i++){
+      var b = btns[i];
+      b.classList.remove("ok");
+      b.classList.remove("no");
+      var k = b.getAttribute("data-k");
+      if(rec){
+        b.setAttribute("disabled","disabled");
+        if(k === ans) b.classList.add("ok");
+        else if(k === rec.pick) b.classList.add("no");
+      }else{
+        b.removeAttribute("disabled");
+      }
+    }
+    var exp = q.querySelector(".exp");
+    if(exp){
+      if(rec) exp.classList.add("show");
+      else exp.classList.remove("show");
+    }
+  }
+
+  function hasCls(el, name){
+    if(!el || !el.className) return false;
+    return String(el.className).split(/\s+/).indexOf(name) >= 0;
+  }
+
+  function onClick(e){
+    var el = e.target;
+    while(el && el !== root && !hasCls(el, "opt")){ el = el.parentNode; }
+    if(!el || el === root) return;
+    var q = el.parentNode;
+    while(q && q !== root && !hasCls(q, "q")){ q = q.parentNode; }
+    if(!q || q === root) return;
+    var idx = -1;
+    for(var i=0;i<items.length;i++){ if(items[i] === q){ idx = i; break; } }
+    if(idx < 0) return;
+    if(store[idx]) return;
+    var pick = el.getAttribute("data-k");
+    if(!pick) return;
+    store[idx] = {pick: pick, ok: pick === q.getAttribute("data-ans")};
+    paint(q, store[idx]);
+    save();
+    refreshStat();
+  }
+
+  root.addEventListener("click", onClick);
+
+  function applyAll(){
+    for(var i=0;i<items.length;i++){
+      paint(items[i], store[i] || null);
+    }
+    refreshStat();
+  }
+
+  var resetBtn = document.getElementById("resetBtn");
+  if(resetBtn){
+    resetBtn.addEventListener("click", function(){
+      store = {};
+      if(canStore){
+        try{ localStorage.removeItem(KEY); }catch(e){ canStore = false; }
+      }
+      applyAll();
+    });
+  }
+
+  store = load();
+  applyAll();
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
