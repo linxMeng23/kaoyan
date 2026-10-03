@@ -16,3 +16,6 @@ Thumbs.db
 .DS_Store
 .vscode/
 .idea/
+
+# 手稿 PDF（体积大，不入库）
+shuxue/凯哥/7. 高数公共章节的手稿（可替代pdf解析）/
