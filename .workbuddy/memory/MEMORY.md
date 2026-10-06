@@ -17,11 +17,53 @@
 
 ## 交付与产物约定
 
+- **md → PDF 已固化为项目级技能（2026-10-06 建，同日由用户级改归项目级）**，
+  优先用它，不要再手写脚本。**实体**：`F:\WorkSpace\kaoyan\.workbuddy\skills\md-katex-to-pdf\`（git 跟踪）；
+  **两个 junction 发现别名**（均指向实体，已实测可执行）：
+  `.codebuddy\skills\md-katex-to-pdf`（WorkBuddy 项目级实测生效的根）与
+  `.agents\skills\md-katex-to-pdf`（跨 Agent 约定目录：Codex / Cursor / Copilot / VS Code / DSH 共读）。
+  二者按**精确路径**加入 `.gitignore`（`/.codebuddy/skills/md-katex-to-pdf/`、`/.agents/skills/md-katex-to-pdf/`）——
+  不要整目录忽略 `.codebuddy/`、`.agents/`，以免将来真有实体放在那里时被误藏。
+  Windows 下 git 的 `core.symlinks` 默认为 false，会把 junction 当普通目录递归收录，不忽略会重复提交同一份技能。
+  **注意 `Glob` 工具不穿透 junction**：用 `**/SKILL.md` 搜不到 junction 里的文件，
+  容易误判为「没挂上」。验证挂载必须用 `os.lstat` 查 `st_reparse_tag == 0xA0000003`，
+  并实际读一次内部文件；核对是否真的可执行要跑一遍脚本。
+  用法：
+  `node .workbuddy/skills/md-katex-to-pdf/scripts/build.mjs <源.md> [--out <目录>] [--name <主干>]`，
+  随后 `python .../scripts/qa.py <pdf> [--ref <旧版.pdf>]` 质检；`.../scripts/audit_tables.js` 登记表格列宽。
+  已实测技能产物与本项目 `.build_pdf/build.mjs` 的产物页数/字体/内容完全一致
+  （`.build_pdf/build.mjs`、`qa.py` 现为冗余副本，可择机删除）。
+- **WorkBuddy 项目级技能根目录**：声明为 `<project>/.workbuddy/skills/`，
+  但本机实测生效的是 `<project>/.codebuddy/skills/` —— 两处都放（实体 + junction）最稳。
+  建 junction 必须用 Node 的 `fs.symlinkSync(src, dst, 'junction')`；
+  本机 `ln -s` 与 Python `os.symlink` 都会**静默退化成整目录复制**。验证要用 `os.lstat` 查
+  `st_file_attributes & 0x400` 且 `st_reparse_tag == 0xA0000003`，不能只看 `ls`。
 - **Markdown+LaTeX → PDF 链路**（本机无 pandoc / wkhtmltopdf）：
   `marked`（CJS 入口 `…\node\workspace\node_modules\marked\lib\marked.cjs`）
   → 公式占位保护 → `katex@0.16.47`（`inline-katex-html` 技能的 `scripts/renderer.js`）
   → 无头 Chrome `--headless=new --print-to-pdf`（A4，KaTeX 字体自动子集化内嵌）。
   CSS 上 `table` 不加 `break-inside: avoid`，只对 `tr` 加，并让 `thead` 跨页重复。
+- **现成构建脚本**：`F:\WorkSpace\kaoyan\.build_pdf\build.mjs`，用法
+  `<node> .build_pdf/build.mjs <源.md> <输出目录> <输出文件名主干>`。
+  已内建：BOM 剥离、公式占位保护与块级/行内判定、**表格列宽交给 Chrome 自动布列**、
+  **KaTeX 全部 woff2 字体以 base64 data URI 内联**、无头 Chrome 打印。
+- **表格列宽用 `table-layout:auto`，不要按表头关键词硬分配**（2026-10-06 依据）：
+  旧逻辑只认 `考法|环节|步骤|题号|层|题`、`题眼|动作|结论|方法|说明|易错|关键|内容` 两组关键词，
+  表头不命中时退化为各列均分 `100/n` —— `# | 积分 | 找等价 | 阶` 这类表的首列会白占 25% 宽度
+  （用户反馈「最左边太空」）。改用 Chrome 原生自动布列后首列收到约 5%，且 0 越界。
+  旧逻辑保留为 `TBL=header` 回退；`TBL=auto` 已是默认，无需显式传参。
+  排查表格问题可跑 `.build_pdf/list_tables.js` 打印全文各表的表头与各列内容长度。
+- **字体必须内联，不可用相对路径**（2026-10-06 踩坑）：`katex.min.css` 里的
+  `url(fonts/KaTeX_*.woff2)` 是相对路径，与 HTML 输出目录不匹配 → 除个别绝对路径外全部加载失败，
+  Chrome 退回 `Times New Roman`/`Cambria Math`，表现为「变量斜体、积分号、可变尺寸括号」明显变丑。
+  已改为 20 个 woff2 全量 base64 内联（约 +338 KB）。**校验口径**：嵌入字体必须含 `KaTeX_Math-Italic`
+  与 `KaTeX_Size*`，且不得出现 `TimesNewRoman`。正文中直接键入的 `⟸`/`⟹` 回退 Cambria Math 属正常。
+- **质检脚本**：`python .build_pdf/qa.py <pdf> [--ref <旧版.pdf>]` —— 字体内嵌 / 水平越界
+  （左右各 16mm）/ 单页尾部留白（>110pt）/ 字符多重集完整性，四项一次跑完。
+- **公式排版避坑**：一条 `$$` 内用 `\qquad` 并排两种情况极易超宽右溢出（KaTeX 行内盒不可断行），
+  应拆成两条 `$$`；构建后用 qa.py 的越界检查把关。
+- **另一校验口径**：`@@MATH\d+@@` 残留为 0、`katex-error` 为 0、h1 为 1。源 md 带 UTF-8 BOM 时
+  首行 `# 标题` 会退化为段落（专题10 的 md 带 BOM，其已交付 PDF 标题未按 h1 渲染，待重跑覆盖）。
 - **PDF 交付同时上资料库网盘**（`drive/upload_drive_file.py`）；改版时用
   `--node-id <原节点> --file-name "<原文件名>"` 原地替换，保持链接不变。
 - 已有的线上资产（供后续直接引用）：

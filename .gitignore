@@ -22,3 +22,22 @@ shuxue/凯哥/7. 高数公共章节的手稿（可替代pdf解析）/
 
 # 构建产物
 .build_pdf/
+
+# 跨 Agent 技能挂载别名（技能实体在 .workbuddy/skills/，这里只是 junction；
+# Windows 下 git 的 core.symlinks 默认为 false，会把 junction 当普通目录递归收录，
+# 导致同一份技能被提交两遍，故精确忽略这两个别名路径而非整个目录）
+/.codebuddy/skills/md-katex-to-pdf/
+/.agents/skills/md-katex-to-pdf/
+
+# PDF 默认不入库（新收集的资料 PDF 体积大，GitHub 单文件上限 100MB，只留本地；
+# 可重新下载的资料类 PDF：王道/里昂/880/真题/政治/英语等）
+*.pdf
+
+# 凯哥讲义/周考/月考 PDF 是仓库原有内容（原 shuxue/凯哥，随目录改名迁移），继续跟踪
+!/数学/凯哥/**/*.pdf
+
+# 王道书籍 PDF 目录（说明文件夹保留，PDF 由上面的全局规则忽略）
+/408/27王道/操作系统/
+/408/27王道/数据结构/
+/408/27王道/计算机组成原理/
+/408/27王道/计算机网络/
