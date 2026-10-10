@@ -1,7 +1,23 @@
 # ref — 定积分几何应用（专题 13）
 
-> 交付物：`shuxue/13 定积分几何应用-例题全解（专题13）.md`（12 题全解：考法一 例题 1–5、考法二 例题 6–8 + 类题、考法三 例题 9–10 + 类题；820 行）。
-> 核验脚本：`.workbuddy/tmp/chk_geo_app_13.py`（tanh-sinh + Simpson + 蒙特卡洛 + 帕普斯定理互证）。
+> 交付物：`shuxue/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md`（12 题全解：考法一 例题 1–5、考法二 例题 6–8 + 类题、考法三 例题 9–10 + 类题；1212 行）。
+> 核验脚本：`.workbuddy/tmp/hw13_verify_all.py`（Adaptive Simpson 逐题复核 21 项，ALL OK）、`.workbuddy/tmp/hw13_check.py`（排版）、`.workbuddy/tmp/hw13_katex.js`（KaTeX 1315 式 0 警告）。
+> **2026-10-05 已按手稿重写**：解题方法改用手稿路线，手稿穿插知识点按手稿顺序补入。备份 `.workbuddy/tmp/hw13_backup.md`，差异清单 `.workbuddy/tmp/hw13_diff.md`。
+
+## 〇、手稿来源（本次重写的依据）
+
+手稿：`凯哥/7. 高数公共章节的手稿（可替代pdf解析）/专题13手稿：定积分几何应用.pdf`（11 页扫描件，**无文本层**，必须 `pypdfium2_cli render --format png --scale 2` 渲染后视觉读取）。渲染件在 `tmp_pdf13/`。
+
+### 手稿穿插知识点（按手稿出现顺序，本次已全部补入交付物第零节第 5 条）
+
+1. 考法一开篇知识框 $S=\frac12\int_\alpha^\beta r^{2}(\theta)\mathrm d\theta$（例 1、2 都靠它）。
+2. 例 1 前页角：$\int\frac{\mathrm d\theta}{a^{2}\cos^{2}\theta+b^{2}\sin^{2}\theta}$ 的凑法 + $\arctan\frac{\sqrt3}{3}=\frac\pi6$。
+3. 例 2 前页角：交点角就是令两个 $r$ 相等 $\Rightarrow1+\cos\theta=3\cos\theta\Rightarrow\cos\theta=\frac12\Rightarrow\theta=\frac\pi3$。
+4. 例 5 前：$x>0$ 时 $0<e^{-x}<1$，$e^{-x}$ 是 $\sin x$ 的「**压缩系数**」（收敛性的直观来源）。
+5. 例 5 另解：$e^{a+b}=e^{a}e^{b}$、$|\sin x|$ 的周期 $T=\pi$。
+6. 例 6 前：$y(0)=0$、$y(+\infty)=0$、$y(x)>0$（画草图三依据）。
+7. 例 8 类题：$3-[3-|x^{2}-1|]=|x^{2}-1|$。
+8. 考法三开篇：标「**数一、数二**」；$\mathrm ds=\sqrt{1+y'^{2}}\mathrm dx$ 与参数版并排；弧段 $\mathrm ds$ 绕轴转动的草图。
 
 ## 一、四组公式（动笔前先选公式，再定被积式）
 
@@ -32,33 +48,42 @@
 
 | 题号 | 所求量 | 结果 | 关键动作 |
 |---|---|---|---|
-| 例 1 | 两椭圆公共面积 | $\frac{2\sqrt3\pi}3$ | 交点 $\left(\frac{\sqrt3}2,\frac{\sqrt3}2\right)$；两段取低者；×4 |
-| 例 2 | 心形线∩圆 | $\frac{5\pi}4$ | 交点角 $\frac\pi3$；$r=\min$ 分两段；×2 |
-| 例 3 | 渐近线、面积 | $y=\frac{\sqrt\pi}2$，$A=\frac12$ | $f=e^{-x^2}$；$\frac{\sqrt\pi}2-g=\int_x^\infty e^{-u^2}\mathrm du$ 换序 |
-| 例 4（2023） | 面积、体积 | $\ln(1+\sqrt2)$，$\pi-\frac{\pi^2}4$ | $x=\tan\theta$ 得 $\csc$（**不是** $\cot$）；体积裂项 |
-| 例 5 | 面积 | $\frac{1+e^{-\pi}}{2(1-e^{-\pi})}$ | 零点分段 + 等比（公比 $e^{-\pi}$） |
-| 例 6（2024） | 体积最大值 | $\frac{\pi(3+4\ln2)}{64}$ | 变限积分求导（上限因子 2）；$t=\ln2$ |
-| 例 7 | $V_x,V_y$ | $5\pi^2a^3$，$6\pi^3a^3$ | 绕 $x$ 轴圆盘、绕 $y$ 轴柱壳；$\int_0^{2\pi}\sin t(1-\cos t)^2\mathrm dt=0$ |
+| 例 1 | 两椭圆公共面积 | $\frac{2\sqrt3\pi}3$ | **手稿走极坐标**：求 $r^{2}$，$\theta=\frac\pi4$ 分界；$12\cdot\frac{1}{\sqrt3}\arctan\frac{\tan\theta}{\sqrt3}\big|_0^{\pi/6}=4\sqrt3\cdot\frac\pi6$；$D=4D_1=8\cdot\frac12\int$ |
+| 例 2 | 心形线∩圆 | $\frac{5\pi}4$ | 交点角 $\frac\pi3$；$r=\min$ 分两段，圆取 $9\cos^2\theta$；$S=2S_1$ |
+| 例 3 | 渐近线、面积 | $y=\frac{\sqrt\pi}2$，$A=\frac12$ | **先算 $I^{2}=\int_0^{\pi/2}\mathrm d\theta\int_0^\infty e^{-r^2}r\mathrm dr=\frac\pi4$** 得 $I=\frac{\sqrt\pi}2$；**面积用分部积分**（另解为二重换序） |
+| 例 4（2023） | 面积、体积 | $\ln(1+\sqrt2)$，$\pi-\frac{\pi^2}4$ | **面积用倒代换 $x=\frac1t$**（得 $\int_0^1\frac{\mathrm dt}{\sqrt{1+t^2}}$；另解 $x=\tan\theta$）；体积裂项 |
+| 例 5 | 面积 | $\frac{1+e^{-\pi}}{2(1-e^{-\pi})}$ | **先比较判别法证收敛**（$\le\int_0^\infty e^{-x}=1$）→ **部分和极限** $\lim_{n\to\infty}\int_0^{n\pi}$ → 公比 $e^{-\pi}$ 等比；**另解 $x+\pi=t$ 得 $(e^\pi-1)S=e^\pi\cdot\frac{1+e^{-\pi}}2$** |
+| 例 6（2024） | 体积最大值 | $\frac{\pi(3+4\ln2)}{64}$ | $V'=\pi te^{-2t}(4e^{-2t}-1)$（手稿提法；与 $\pi te^{-4t}(4-e^{2t})$ 等价）；$t=\ln2$ |
+| 例 7 | $V_x,V_y$ | $5\pi^2a^3$，$6\pi^3a^3$ | **$V_x$ 半角化** $(1-\cos t)^3=8\sin^6\frac t2\to16\int_0^\pi\sin^6u=16\cdot\frac{5\pi}{32}$；**$V_y$ 平移 $t-\pi=u$ 凑偶函数**（奇部 $(u+\sin u)(1+\cos u)^2$ 归零）再半角化到 $\int_0^{\pi/2}\cos^4\varphi=\frac{3\pi}{16}$ |
 | 例 8 | 绕 $x=2$ | $\frac{\pi^2}2-\frac{2\pi}3$ | 柱壳法；$u=x-1$ 拆出 $\frac\pi4$ 与 $-\frac13$；帕普斯互证 |
-| 例 8 类题 | 绕 $y=3$ | $\frac{448\pi}{15}$ | 垫圈法，内半径 $|x^2-1|$（平方后绝对值消失） |
-| 例 9 | 绕斜直线曲面 | $32\pi\left(\sqrt3-\frac\pi3\right)$ | $d=2$、$\rho=4\cos\varphi-2$、$\mathrm ds=4\mathrm d\varphi$；弦不生成曲面 |
-| 例 10 | $L,S_x,S_y$ | $8a$，$\frac{64\pi a^2}3$，$16\pi^2a^2$ | 共用 $\mathrm ds=2a\sin\frac t2\mathrm dt$ |
-| 例 10 类题 | $A,L,V,S$ | $\frac{3\pi a^2}8$，$6a$，$\frac{32\pi a^3}{105}$，$\frac{12\pi a^2}5$ | 点火公式（Wallis） |
+| 例 8 类题 | 绕 $y=3$ | $\frac{448\pi}{15}$ | **手稿用「大圆柱减小立体」**：$V=2V_1=2(V_c-V_2-V_3)$，$V_c=\pi\cdot3^2\cdot2=18\pi$，$V_2+V_3=\pi\int_0^2(x^2-1)^2\mathrm dx=\frac{46\pi}{15}$（另解垫圈法） |
+| 例 9 | 绕斜直线**体积** | $48\sqrt3\pi-\frac{64}{3}\pi^2$ | **手稿题面「表面积」被划掉改注为「体积」**；$d=\frac{\|0+0-4\|}{\sqrt{3+1}}=2$、$L':y=2$、$x^2=12$；$V=2\pi\int_0^{\pi/3}(4\cos t-2)^2 4\cos t\,\mathrm dt$。**手稿末行写 $12\sqrt3\pi-\frac{16}{3}\pi^2$ 是笔误**（值 12.66 vs 50.64），正解系数 $48,\frac{64}{3}$ |
+| 例 9 注 | 表面积（手稿页尾「注」） | $32\pi(\sqrt3-\frac\pi3)$ | 手稿原话「用弧段 $\mathrm ds$ 乘走过的路 $2\pi\rho$」；$\rho=\sqrt{16-x^2}-2$、$\mathrm ds=\frac{4\mathrm dx}{\sqrt{16-x^2}}$ |
+| 例 10 | $L,S_x,S_y$ | $8a$，$\frac{64\pi a^2}3$，$16\pi^2a^2$ | 共用 $\mathrm ds=2a\sin\frac t2\mathrm dt$；$S_x$ 先半角把被积式合成 $8\pi a^2\sin^3\frac t2$ 再换元 |
+| 例 10 类题 | $A,L,V,S$ | $\frac{3\pi a^2}8$，$6a$，$\frac{32\pi a^3}{105}$，$\frac{12\pi a^2}5$ | 第一象限算一次，倍数 4/4/2/2；$\cos^2 t=1-\sin^2 t$ 拆两个点火；侧面积 $\int\sin^4t\cos t\,\mathrm dt$ 直接凑微分 |
 
 ## 五、易错清单
 
 - 公共区域不逐段取低者（例 1、2）。
+- 极坐标倍数写两遍：四象限的 $4$ 与公式自带的 $\frac12$ 要分开（例 1 的 $8\cdot\frac12\int$、例 2 的 $2S_1$）。
 - 「曲线与 $x$ 轴之间的面积」忘取绝对值（例 5）。
+- 无限区域不先证收敛/不定渐近线（例 3、5）。
 - 变限积分求导漏上限因子（例 6）。
 - 参数方程漏 $x'(t)$（例 7、例 10 类题）。
-- 绕非坐标轴时**位置判断错**：轴在区域外侧 → 柱壳（例 8 的 $x=2$）；轴在区域上方 → 垫圈且内半径取「轴到曲线的距离」（例 8 类题的 $3-y_{\max}$）。
+- 绕非坐标轴时**位置判断错**：轴在区域外侧 → 柱壳（例 8 的 $x=2$）；轴在区域上方 → 垫圈法或**大圆柱减小立体**（例 8 类题的 $y=3$）。
 - 绕斜直线时套了要求「轴过球心」的球冠公式（例 9）。
+- $(1\pm\cos t)^{n}$ 不用半角化而硬展开（例 7）；区间不对称时不做平移凑对称（例 7 的 $V_y$）。
 - 去根号不加绝对值号（$\sqrt{2-2\cos t}=2|\sin\frac t2|$）。
 - 星形线四个量的倍数混用（4/4/2/2）。
+- **手稿笔误要能识别**：例 9 体积末行系数（见第四节表格）。
 
 ## 六、脚本要点
 
-- 复用 tanh-sinh（**jmax 必须满足 $j\cdot h\le6$**，否则 `math.cosh` 溢出；已加 `jmax=min(jmax,int(6/h))` 兜底）。
-- 含端点幂型奇点的积分（$\int_0^1 x^{-1/2}$）tanh-sinh 直接处理；振荡含绝对值的（例 5）先按 $k\pi$ 分段再逐段积。
-- 交叉核验手段：例 1、例 2 用蒙特卡洛（4e6 / 3e6 点，误差在 $\sqrt{p(1-p)/N}$ 量级内）；例 8 用帕普斯定理；例 8 类题用垫圈法与水平柱壳法两算；例 9 用两套参数化；例 4 用 $x=\tan\theta$ 与 $x=1/t$ 两条换元。
+- 复用 Adaptive Simpson。
+- **两个必须避开的假结果陷阱**（2026-10-05 实测，两次踩到）：
+  1. **端点全零陷阱**：被积函数在「区间端点与中点」上全取 $0$ 时（如例 5 的 $e^{-x}\sin x$ 在 $0,\frac\pi2,\pi$ 处），首轮与细分估计同为 $0$，程序判定收敛直接返回 $0$。**凡含 $|\cdot|$、分段或周期拱的积分，先在折点/峰值处分段再积。**
+  2. **无穷区间粗采样**：对 $[1,10^6]$ 直接跑单段 Simpson，$h$ 过大导致例 4 体积偏大一倍。**改用几何加密分段**（`pts = a + (b-a)*((k+1)/split)**3`）再逐段 Simpson。
+  3. **绝对值别丢**：例 5 漏 $|\sin x|$ 会得到代数和 $0.5$（而非面积 $0.5452$）。
 - f-string 里写「$\int_0^{2\pi}$」会触发 `SyntaxError`（`{2π}` 被当成替换域），改写成 `{{2\pi}}` 或用普通字符串拼接。
+- 排版核验：`hw13_check.py`（`$$` 单行、中文不入公式、禁 `aligned/cases/\bigl/\underbrace`、步标计数）+ `hw13_katex.js`（复用 `tmp/katex/katex.min.js`，strict 模式）。
+- 步标规范：`**动作名**：`（加粗 + 全角冒号），**不用有序列表 / 括号编号 /「第一步／方法一」**；有序列表只保留在「考场分析」与「易错提醒」。

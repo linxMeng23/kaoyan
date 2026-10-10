@@ -1,0 +1,214 @@
+{
+  "main": {
+    "id": "5e81e44bddad4c4c",
+    "type": "split",
+    "children": [
+      {
+        "id": "39f9b768069ac243",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "98d5bc3ff82d0eb1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "13 定积分几何应用-例题全解（专题13）"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3c4501877de5765c",
+    "type": "split",
+    "children": [
+      {
+        "id": "26bc70a1c16ee747",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9595e15391556dd5",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "f7e748dd71adab6b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "cbfc7bfa01ccff06",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "13824c0bd7c14d21",
+    "type": "split",
+    "children": [
+      {
+        "id": "1191a05c29d3f111",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dc6a32be137e2845",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "数学/凯哥/高数进阶/11 反常积分敛散性-例题全解（专题11）.md",
+                "collapseAll": true,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "fdd755336c25ebad",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "数学/凯哥/高数进阶/11 反常积分敛散性-例题全解（专题11）.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "1e5e83ae61aad8f7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "fbd7dc21f367bdc6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "2e51a169c800147e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "98d5bc3ff82d0eb1",
+  "lastOpenFiles": [
+    "数学/凯哥/高数进阶/11 反常积分敛散性-例题全解（专题11）.md",
+    "数学/凯哥/高数进阶/专题11-反常积分敛散性-例题全解.pdf.baiduyun.uploading.cfg",
+    "_pages11/p22.png",
+    "_pages11/p21.png",
+    "_pages11/p20.png",
+    "_pages11",
+    "_check11.py",
+    "_out11/专题11-反常积分敛散性-例题全解.pdf",
+    "_out11",
+    "_backup_专题11.pdf",
+    "数学/凯哥/高数进阶/12 反常积分计算-例题全解（专题12）.md",
+    "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
+    "数学/凯哥/高数进阶/专题11-反常积分敛散性-例题全解.pdf",
+    "数学/凯哥/高数进阶/专题10-积分不等式-例题全解.pdf",
+    "未命名 2.base",
+    "未命名 1.base",
+    "数学/凯哥/高数进阶/10 积分不等式-例题全解（专题10）.md",
+    "数学/凯哥/高数进阶/05 中值定理-例题全解（专题5）.md",
+    "数学/凯哥/高数进阶/04 高阶导数-例题全解（专题4）.md",
+    "数学/凯哥/高数进阶/09 定积分计算-例题全解（专题9）.md"
+  ]
+}
