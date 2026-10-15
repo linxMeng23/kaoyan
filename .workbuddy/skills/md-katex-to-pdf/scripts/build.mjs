@@ -2,7 +2,7 @@
 // Markdown + LaTeX -> PDF（KaTeX 渲染 + 无头 Chrome 打印）
 //
 //   node build.mjs <源.md> [--out <目录>] [--name <主干>] [--html-dir <目录>]
-//                          [--tbl auto|header] [--chrome <路径>] [--keep-html]
+//                          [--tbl auto|header] [--chrome <路径>] [--vt <毫秒>] [--keep-html]
 //
 // 设计要点（都是踩过坑后的结论，改动前请先看 references/pitfalls.md）：
 //   1. 先抽公式成占位符，再交给 marked，否则公式里的 _ * | 会被 Markdown 吃掉。
@@ -22,7 +22,7 @@ const require = createRequire(import.meta.url);
 
 // ---------- 参数解析 ----------
 function parseArgs(argv) {
-  const o = { tbl: 'auto', keepHtml: false, src: null };
+  const o = { tbl: 'auto', keepHtml: false, src: null, vt: 120000 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--out') o.out = argv[++i];
@@ -30,6 +30,7 @@ function parseArgs(argv) {
     else if (a === '--html-dir') o.htmlDir = argv[++i];
     else if (a === '--tbl') o.tbl = argv[++i];
     else if (a === '--chrome') o.chrome = argv[++i];
+    else if (a === '--vt') o.vt = Number(argv[++i]) || o.vt;
     else if (a === '--keep-html') o.keepHtml = true;
     else if (a === '-h' || a === '--help') o.help = true;
     else if (!a.startsWith('--')) o.src = a;
@@ -46,6 +47,7 @@ const USAGE = `用法: node build.mjs <源.md> [选项]
   --html-dir <目录>     中间 HTML 目录（默认：系统临时目录）
   --tbl <auto|header>   表格列宽策略，默认 auto（Chrome 原生自动布列）
   --chrome <路径>       指定浏览器可执行文件（亦可用环境变量 CHROME_PATH）
+  --vt <毫秒>          无头浏览器 virtual-time-budget，默认 120000（大文档若打印不全就调大）
   --keep-html           把中间 HTML 保留到 <out>/<主干>.html
   -h, --help            显示本帮助
 
@@ -147,6 +149,24 @@ if (args.tbl === 'header') {
   });
 }
 
+// ---------- 2c) 本地图片内联为 data URI ----------
+// HTML 默认写到系统临时目录，md 里的相对图片路径在那里解析不到；
+// 这里一律按「相对源 md 所在目录」解析并内联，保证产出的 HTML/PDF 自包含。
+const IMG_MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.bmp': 'image/bmp' };
+let inlinedImgs = 0;
+const missingImgs = [];
+html = html.replace(/<img\b[^>]*>/g, (tag) => {
+  const m = tag.match(/\bsrc="([^"]+)"/);
+  if (!m) return tag;
+  const raw = m[1];
+  if (/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(raw) || /^(?:data|file):/i.test(raw)) return tag;   // 外链或已内联
+  const p = path.resolve(path.dirname(src), decodeURIComponent(raw));
+  const mime = IMG_MIME[path.extname(p).toLowerCase()];
+  if (!mime || !existsSync(p)) { missingImgs.push(raw); return tag; }
+  inlinedImgs++;
+  return tag.replace(/\bsrc="[^"]*"/, `src="data:${mime};base64,${readFileSync(p).toString('base64')}"`);
+});
+
 // ---------- 3) 回填公式 ----------
 function renderMath(i, display) {
   try {
@@ -203,6 +223,7 @@ th{background:#eef2f7;font-weight:600}
 tr{break-inside:avoid}
 blockquote{border-left:3px solid #ccc;margin:8px 0;padding:2px 10px;color:#555;font-size:10pt}
 code{background:#f4f4f4;padding:1px 4px;border-radius:3px;font-size:9.5pt}
+img{max-width:100%;height:auto;display:block;margin:10px 0}
 .katex{font-size:1.02em}
 .katex-display{margin:9px 0;overflow:visible}
 td .katex{font-size:1em}
@@ -222,7 +243,7 @@ try {
   execFileSync(CHROME, [
     '--headless=new', '--disable-gpu', '--no-pdf-header-footer',
     '--allow-file-access-from-files', '--disable-extensions',
-    '--run-all-compositor-stages-before-draw', '--virtual-time-budget=40000',
+    '--run-all-compositor-stages-before-draw', '--virtual-time-budget=' + args.vt,
     `--print-to-pdf=${pdfPath}`, fileUrl,
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
 } catch (e) {
@@ -239,6 +260,7 @@ if (chromeStderr.trim()) console.warn('（浏览器有非致命输出，已忽�
 
 console.log(`源文件   ${src}`);
 console.log(`内联字体 ${inlined} 条`);
+console.log(`内联图片 ${inlinedImgs} 张` + (missingImgs.length ? `（缺失: ${[...new Set(missingImgs)].join(', ')}）` : ''));
 console.log(`PDF      ${pdfPath}  (${(statSync(pdfPath).size / 1024).toFixed(0)} KB)`);
 if (args.keepHtml) console.log(`HTML     ${htmlPath}`);
 console.log('\n下一步：运行质检\n  python qa.py "<PDF 路径>"');

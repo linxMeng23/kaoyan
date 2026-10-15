@@ -1,0 +1,8 @@
+/__local/9/A9/25/91582CE041DC14655A313703556_001A71B1_3934A.jpg
+/__local/A/91/B5/E268911DAC48F82280A95EF007C_A5D07A3B_37718.jpg
+/__local/D/A4/02/E12C27721AFE0DD9BA21C919ED9_E9C56DBD_2E3C0.jpg
+../../images/nav_fgx.gif
+../../images/bd_bg_1.gif
+../../images/ico_001.gif
+/system/resource/images/newsvote/submit2.gif
+/system/resource/images/newsvote/view2.gif

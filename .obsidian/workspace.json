@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
-                "mode": "preview",
+                "file": "408/我的习题/DS习题-题目与答案.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "13 定积分几何应用-例题全解（专题13）"
+              "title": "DS习题-题目与答案"
             }
           }
         ]
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
+                "file": "408/我的习题/DS习题-题目与答案.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,22 +190,34 @@
   },
   "active": "98d5bc3ff82d0eb1",
   "lastOpenFiles": [
-    "数学/凯哥/高数进阶/11 反常积分敛散性-例题全解（专题11）.md",
-    "数学/凯哥/高数进阶/专题11-反常积分敛散性-例题全解.pdf.baiduyun.uploading.cfg",
-    "_pages11/p22.png",
-    "_pages11/p21.png",
-    "_pages11/p20.png",
-    "_pages11",
-    "_check11.py",
-    "_out11/专题11-反常积分敛散性-例题全解.pdf",
-    "_out11",
-    "_backup_专题11.pdf",
-    "数学/凯哥/高数进阶/12 反常积分计算-例题全解（专题12）.md",
+    "Clippings/Post by @Pluvio9yte on X.md",
+    "408/我的习题/DS习题-题目与答案.md",
+    "Clippings",
+    "408/我的习题/DS习题-答案与解析.md",
+    "408/薄弱点.md",
+    "408/我的习题/考研数据结构习题-题目与答案.pdf",
+    "408/我的习题/DS习题-题目.md",
+    "408/我的习题/_merge_qa.js",
+    "_tmp/math_poster/c_m09b.png",
+    "_tmp/math_poster/poster408_sq.png",
+    "_tmp/math_poster/c_m09.png",
+    "_tmp/math_poster/c408_p1.png",
+    "_tmp/math_poster/math_sq.png",
+    "_tmp/math_poster/poster408_sq.html",
+    "_tmp/math_poster/math_sq.html",
+    "_tmp/math_poster/build408_sq.mjs",
+    "_tmp/math_poster/build_math_sq.mjs",
+    "_tmp/math_poster/common.mjs",
+    "_tmp/math_poster/build408.mjs",
+    "_tmp/math_poster/crop02.png",
+    "_tmp/math_poster/crop09.png",
+    "generated-images/Elegant_fine_art_mathematical__2026-10-12T11-29-45.png",
+    "_tmp/math_poster/math.png",
+    "generated-images/An_elegant_fine_art_poster_cel_2026-10-12T11-29-17.png",
+    "_tmp/math_poster/poster.html",
     "数学/凯哥/高数进阶/13 定积分几何应用-例题全解（专题13）.md",
-    "数学/凯哥/高数进阶/专题11-反常积分敛散性-例题全解.pdf",
-    "数学/凯哥/高数进阶/专题10-积分不等式-例题全解.pdf",
-    "未命名 2.base",
-    "未命名 1.base",
+    "数学/凯哥/高数进阶/11 反常积分敛散性-例题全解（专题11）.md",
+    "数学/凯哥/高数进阶/12 反常积分计算-例题全解（专题12）.md",
     "数学/凯哥/高数进阶/10 积分不等式-例题全解（专题10）.md",
     "数学/凯哥/高数进阶/05 中值定理-例题全解（专题5）.md",
     "数学/凯哥/高数进阶/04 高阶导数-例题全解（专题4）.md",

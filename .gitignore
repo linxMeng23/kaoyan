@@ -25,7 +25,15 @@ shuxue/凯哥/7. 高数公共章节的手稿（可替代pdf解析）/
 /408/
 /真题/
 
-# 构建产物
+# Agent 临时产物（脚本、图表、中间文件，可随时删除）
+# 2026-10-13 起根目录只留 _tmp/ 一个临时目录，其余全部并入其中：
+#   _tmp/libs       pypdf / xlrd 的 wheel 解压目录（择校/京津冀核查/*.py 靠 sys.path 引用）
+#   _tmp/build_pdf  原 .build_pdf，PDF 构建中间产物
+#   _tmp/math_poster、_tmp/tju、_tmp/bistu、_tmp/2009conv 等一次性抓取/渲染产物
+.tmp/
+_tmp/
+# 下面两条是历史路径，保留以防旧脚本在原位重新生成
+_libs/
 .build_pdf/
 
 # 跨 Agent 技能挂载别名（技能实体在 .workbuddy/skills/，这里只是 junction；

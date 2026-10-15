@@ -33,6 +33,8 @@ node scripts/build.mjs <源.md> --keep-html           # 保留中间 HTML 以便
 可选参数：`--tbl auto|header`（表格列宽策略，默认 `auto`）、`--chrome <路径>`。
 
 脚本已内建：BOM 剥离、公式占位保护、块级/行内判定、表格列宽交给浏览器自动布列、
+**本地图片按「源 md 所在目录」解析并内联为 data URI**（所以 md 里的 `![](图.png)` 只要图与 md 同目录即可，
+中间 HTML 写在临时目录也不会掉图；外链与 `file:` 不动）、
 **20 个 woff2 字体全量 base64 内联**、无头浏览器打印。中间 HTML 默认写到系统临时目录，
 不污染笔记目录（需要时用 `--keep-html`）。
 
