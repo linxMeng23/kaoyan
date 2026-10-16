@@ -28,15 +28,33 @@ agent_created: true
 node scripts/build.mjs <源.md>                       # 输出到源文件同目录，同名 .pdf
 node scripts/build.mjs <源.md> --out <目录> --name <主干>
 node scripts/build.mjs <源.md> --keep-html           # 保留中间 HTML 以便排查
+node scripts/build.mjs <源.md> --toc                 # 打印后写入书签（大纲目录）
 ```
 
-可选参数：`--tbl auto|header`（表格列宽策略，默认 `auto`）、`--chrome <路径>`。
+可选参数：`--tbl auto|header`（表格列宽策略，默认 `auto`）、`--chrome <路径>`、
+`--toc`（写书签）、`--toc-levels <n>`（书签收到第几层标题，默认 4）、`--python <解释器>`。
 
 脚本已内建：BOM 剥离、公式占位保护、块级/行内判定、表格列宽交给浏览器自动布列、
 **本地图片按「源 md 所在目录」解析并内联为 data URI**（所以 md 里的 `![](图.png)` 只要图与 md 同目录即可，
 中间 HTML 写在临时目录也不会掉图；外链与 `file:` 不动）、
 **20 个 woff2 字体全量 base64 内联**、无头浏览器打印。中间 HTML 默认写到系统临时目录，
 不污染笔记目录（需要时用 `--keep-html`）。
+
+### 1b. 书签（大纲目录）
+
+Chrome 打印**不会**写书签，`--generate-pdf-document-outline` 也只认带 PDF 语义标签的
+HTML（KaTeX 产出的 `div` 不满足），所以书签由 `scripts/toc.py` 另写：
+
+```bash
+node scripts/build.mjs <源.md> --toc          # 构建时顺手写好（推荐）
+python scripts/toc.py <PDF> --md <源.md>      # 单独补写 / 重写
+python scripts/toc.py <PDF> --md <源.md> --dry-run   # 只看识别结果
+```
+
+原理：**书签文字取自源 md 的标题行，页码靠 PDF 文本层定位**。定位方式是按
+「加粗 + 字号大于正文字号」筛出标题行——正文里到处交叉引用「例题 12」这类字样，
+按文字搜会命中正文，按字体字号筛不会。源 md 里层级若跳级（如考法二下直接是 `####`），
+脚本会自动把实际层级压平，否则 PyMuPDF 会以 `bad hierarchy level` 拒收。
 
 ### 2. 质检（必做，四项全过才算完成）
 
@@ -79,6 +97,6 @@ node scripts/audit_tables.js <源.md>     # 登记全文表格的表头、行数
 |---|---|
 | `marked` + `katex` | 需在同一个 `node_modules` 下；用 `KATEX_NM` 环境变量或默认托管路径 |
 | Chrome / Edge | 用 `--chrome` 或 `CHROME_PATH` 指定，脚本也会探测常见安装位置 |
-| `pymupdf` | 仅质检脚本需要，用于解析 PDF |
+| `pymupdf` | 质检脚本与 `toc.py` 写书签需要 |
 
 缺依赖时脚本会报出已尝试的路径并退出，不会静默产出坏文件。

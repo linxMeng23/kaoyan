@@ -3,6 +3,7 @@
 //
 //   node build.mjs <源.md> [--out <目录>] [--name <主干>] [--html-dir <目录>]
 //                          [--tbl auto|header] [--chrome <路径>] [--vt <毫秒>] [--keep-html]
+//                          [--toc] [--toc-levels 4] [--python <解释器>]
 //
 // 设计要点（都是踩过坑后的结论，改动前请先看 references/pitfalls.md）：
 //   1. 先抽公式成占位符，再交给 marked，否则公式里的 _ * | 会被 Markdown 吃掉。
@@ -11,6 +12,9 @@
 //      Times New Roman / Cambria Math，数学排版明显变形。
 //   3. 表宽交给 Chrome 原生自动布列（table-layout:auto），不要按表头文字硬分配。
 //   4. 源文件带 UTF-8 BOM 时先剥离，否则首行 `# 标题` 不会被识别成一级标题。
+//   5. --toc 会在打印完后调 toc.py 写书签（大纲目录）。Chrome 自己不会写书签，
+//      且 --generate-pdf-document-outline 只认「有 pdf 语义标签」的 HTML，对
+//      KaTeX 产出的 div 不生效，所以用「md 标题文字 + PDF 字体字号定位页码」自建。
 
 import { createRequire } from 'module';
 import { writeFileSync, readFileSync, mkdirSync, existsSync, statSync } from 'fs';
@@ -31,6 +35,9 @@ function parseArgs(argv) {
     else if (a === '--tbl') o.tbl = argv[++i];
     else if (a === '--chrome') o.chrome = argv[++i];
     else if (a === '--vt') o.vt = Number(argv[++i]) || o.vt;
+    else if (a === '--toc') o.toc = true;
+    else if (a === '--toc-levels') o.tocLevels = argv[++i];
+    else if (a === '--python') o.python = argv[++i];
     else if (a === '--keep-html') o.keepHtml = true;
     else if (a === '-h' || a === '--help') o.help = true;
     else if (!a.startsWith('--')) o.src = a;
@@ -48,6 +55,9 @@ const USAGE = `用法: node build.mjs <源.md> [选项]
   --tbl <auto|header>   表格列宽策略，默认 auto（Chrome 原生自动布列）
   --chrome <路径>       指定浏览器可执行文件（亦可用环境变量 CHROME_PATH）
   --vt <毫秒>          无头浏览器 virtual-time-budget，默认 120000（大文档若打印不全就调大）
+  --toc                 打印完成后写入书签（大纲目录，需要 pymupdf）
+  --toc-levels <n>      书签收到第几层标题，默认 4（# ~ ####）
+  --python <解释器>     指定 python（跑 --toc 用；默认 python / python3）
   --keep-html           把中间 HTML 保留到 <out>/<主干>.html
   -h, --help            显示本帮助
 
@@ -222,7 +232,7 @@ th,td{border:1px solid #bbb;padding:4px 7px;text-align:left;vertical-align:top;o
 th{background:#eef2f7;font-weight:600}
 tr{break-inside:avoid}
 blockquote{border-left:3px solid #ccc;margin:8px 0;padding:2px 10px;color:#555;font-size:10pt}
-code{background:#f4f4f4;padding:1px 4px;border-radius:3px;font-size:9.5pt}
+code{background:#f4f4f4;padding:1px 4px;border-radius:3px;font-size:9.5pt;font-family:Consolas,"Microsoft YaHei","Courier New",monospace}
 img{max-width:100%;height:auto;display:block;margin:10px 0}
 .katex{font-size:1.02em}
 .katex-display{margin:9px 0;overflow:visible}
@@ -257,6 +267,33 @@ if (!existsSync(pdfPath)) {
   process.exit(1);
 }
 if (chromeStderr.trim()) console.warn('（浏览器有非致命输出，已忽略）');
+
+// ---------- 6) 写入书签 ----------
+// Chrome 不写书签；用 toc.py 从「md 标题文字 + PDF 字体字号」重建大纲。
+if (args.toc) {
+  const tocScript = path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), 'toc.py');
+  const pythons = [args.python, process.env.PYTHON, 'python', 'python3'].filter(Boolean);
+  const py = pythons.find(p => {
+    try { execFileSync(p, ['-c', 'import pymupdf'], { stdio: 'ignore' }); return true; } catch { return false; }
+  });
+  if (!py) {
+    console.warn('警告 --toc 跳过：未找到带 pymupdf 的 python（用 --python 指定，或 pip install pymupdf）');
+  } else if (!existsSync(tocScript)) {
+    console.warn(`警告 --toc 跳过：找不到 ${tocScript}`);
+  } else {
+    const tocArgs = [tocScript, pdfPath, '--md', src];
+    if (args.tocLevels) tocArgs.push('--max-levels', String(args.tocLevels));
+    try {
+      const out = execFileSync(py, tocArgs, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+      const line = out.split('\n').find(l => l.startsWith('书签:'));
+      console.log(`书签     ${line ? line.trim() : '已写入'}`);
+      const warn = out.split('\n').filter(l => l.includes('! 未在 PDF 中定位到标题'));
+      if (warn.length) console.warn(warn.join('\n'));
+    } catch (e) {
+      console.warn('警告 写书签失败（PDF 已生成，可单独跑 toc.py）:\n' + String(e.stderr || e.message).trim().split('\n').slice(-6).join('\n'));
+    }
+  }
+}
 
 console.log(`源文件   ${src}`);
 console.log(`内联字体 ${inlined} 条`);
